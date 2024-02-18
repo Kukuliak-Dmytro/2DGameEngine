@@ -6,5 +6,5 @@
 #include "KeyboardController.h"
 #include "ColliderComponent.h"
 #include "TileComponent.h"
-#include "InteractComponent.h"
+#include "Button.h"
 #include "LabelComponent.h"

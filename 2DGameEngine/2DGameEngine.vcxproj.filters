@@ -89,7 +89,7 @@
     <ClInclude Include="MouseControlls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InteractComponent.h">
+    <ClInclude Include="Button.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="LabelComponent.h">

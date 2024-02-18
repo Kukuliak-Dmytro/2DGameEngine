@@ -136,7 +136,6 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos,bool isInteractive)
 	auto& tile(manager.addEntity());
 	if (isInteractive==true) {
 		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
-		tile.addComponent<InteractComponent>();
 		tile.addComponent<LabelComponent>(xpos, ypos);
 		tile.addGroup(groupTilesTrue);
 	}
