@@ -45,14 +45,18 @@ public:
         SDL_GetMouseState(&mouseX, &mouseY);
 
         SDL_Point mousePoint = { mouseX, mouseY };
-        if (SDL_PointInRect(&mousePoint, &testRect)) {           
-            if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
+        
+        
+             if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
+                 if (drawbutton)drawbutton = !drawbutton;
                 switch (Game::event.button.button) {
                 case SDL_BUTTON_LEFT:
-                    drawbutton = !drawbutton;
+                    if (SDL_PointInRect(&mousePoint, &testRect)) {
+                        drawbutton = !drawbutton;
+                    }
                     break;
                 }
-            }
+            
             
         }
 
