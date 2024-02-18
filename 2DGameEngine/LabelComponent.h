@@ -1,46 +1,69 @@
 #pragma once
 #include "Components.h"
 
-class LabelComponent : public Component
+class LabelComponent : public Button
 {
 private:
-    SDL_Rect src, dest, parent;
-    SDL_Texture* button;
+    SDL_Rect src1, dest1, parent;
+    SDL_Rect src2, dest2;
+    SDL_Rect src3, dest3;
+    SDL_Rect src4, dest4;
+    SDL_Texture *button1, *button2, *button3, *button4;
     bool drawbutton = false;
     int xPosTmp, yPosTmp;//для динамічного визначення позиції рендеру кнопок
 
 
 public:
-    LabelComponent(int x, int y)
+    LabelComponent() = default;
+    LabelComponent(int xPos, int Ypos)
     {
-        parent.x = x-Game::camera.x;
-        parent.y = y-Game::camera.y;
+        parent.x = xPos-Game::camera.x;
+        parent.y = Ypos-Game::camera.y;
         parent.h = parent.w = 128;
-        src.x = src.y = 0;
-        src.h = src.w = 64;
-        dest.x = x; xPosTmp = x;
-        dest.y = y; yPosTmp = y;
-        dest.h = dest.w = 64;
-        button = TextureManager::LoadTexture("assets/button.png");
-        if (!button) {
-            std::cerr << "Failed to load button texture!" << std::endl;
-        }
+        src1.x = src1.y = src2.x = src2.y = src3.x = src3.y = src4.x = src4.x = 0;
+        src1.w = src1.h = src2.w = src2.h = src3.w = src3.h = src4.w = src4.h = 64;
+       
+        xPosTmp = xPos;        
+        yPosTmp = Ypos;
+        dest1.h = dest1.w = 64;
+        dest2.h = dest2.w = 64;
+        dest3.h = dest3.w = 64;
+        dest4.h = dest4.w = 64;
+        button1 = TextureManager::LoadTexture("assets/button1.png");
+        button2 = TextureManager::LoadTexture("assets/button2.png");
+        button3 = TextureManager::LoadTexture("assets/button3.png");
+        button4 = TextureManager::LoadTexture("assets/button4.png");
+        
     }
 
     void draw() override {
         click(parent);
-        if(drawbutton==true)TextureManager::Draw(button, src, dest, SDL_FLIP_NONE);
+        if (drawbutton == true) {
+            TextureManager::Draw(button1, src1, dest1, SDL_FLIP_NONE);
+            TextureManager::Draw(button2, src2, dest2, SDL_FLIP_NONE);
+            TextureManager::Draw(button3, src3, dest3, SDL_FLIP_NONE);
+            TextureManager::Draw(button4, src4, dest4, SDL_FLIP_NONE);
+        }
 
     }
     void update() override {
-        dest.x = xPosTmp; dest.y = yPosTmp;
+        dest1.x = xPosTmp-64;           dest1.y = yPosTmp-64;
+        dest2.x = xPosTmp+128;           dest2.y = yPosTmp-64;
+        dest3.x = xPosTmp +128;          dest3.y = yPosTmp + 128;
+        dest4.x = xPosTmp -64;            dest4.y = yPosTmp+128;
         //врахування позиції камери
-        dest.x -= Game::camera.x;
-        dest.y -= Game::camera.y;
+        dest1.x -= Game::camera.x;
+        dest1.y -= Game::camera.y;
+        dest2.x -= Game::camera.x;
+        dest2.y -= Game::camera.y;
+        dest3.x -= Game::camera.x;
+        dest3.y -= Game::camera.y;
+        dest4.x -= Game::camera.x;
+        dest4.y -= Game::camera.y;
         parent.x = xPosTmp - Game::camera.x;
         parent.y = yPosTmp - Game::camera.y;
      }
-    void click(SDL_Rect& testRect) {
+    void click(SDL_Rect& testRect) override{
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
 

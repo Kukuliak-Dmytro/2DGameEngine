@@ -12,6 +12,7 @@ private:
 
 
 public:
+    Button() = default;
     Button(int x, int y)
     {
         parent.x = x - Game::camera.x;
@@ -35,7 +36,7 @@ public:
         parent.y = yPosTmp - Game::camera.y;
         click(parent);
     }
-    bool click(SDL_Rect& testRect) {
+    virtual void click(SDL_Rect& testRect) {
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
 
@@ -43,12 +44,13 @@ public:
 
 
         if (Game::event.type == SDL_MOUSEBUTTONDOWN) {
-            if (drawbutton)drawbutton = !drawbutton;
+          //  if (drawbutton)drawbutton = !drawbutton;
             switch (Game::event.button.button) {
             case SDL_BUTTON_LEFT:
                 if (SDL_PointInRect(&mousePoint, &testRect)) {
-                    drawbutton = !drawbutton;
-                    return drawbutton;
+                    //якась дія
+                    //drawbutton = !drawbutton;
+                   // return drawbutton;
                 }
                 break;
             }
