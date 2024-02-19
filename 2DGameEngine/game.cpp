@@ -135,7 +135,7 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos,bool isInteractive)
 	auto& tile(manager.addEntity());
 	if (isInteractive==true) {
 		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
-		tile.addComponent<LabelComponent>(xpos, ypos);
+		tile.addComponent<BuildComponent>(xpos, ypos);
 		tile.addGroup(groupTilesTrue);
 	}
 	else
@@ -151,7 +151,7 @@ void Game::AddTurret(int xpos, int ypos)
 	turret.addComponent<TransformComponent>(xpos,ypos,128,128,1);
 	turret.addComponent<SpriteComponent>("assets/turret1.png", false);
 	turret.addComponent<Button>();
-	for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<LabelComponent>(); }
+	for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<BuildComponent>(); }
 	turret.addGroup(groupTurrets);
 	std::cout << "Turret built";
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 
-class LabelComponent : public Button
+class BuildComponent : public Button
 {
 private:
     SDL_Rect src1, dest1, parent;
@@ -14,8 +14,8 @@ private:
 
 
 public:
-    LabelComponent() = default;
-    LabelComponent(int xPos, int Ypos)
+    BuildComponent() = default;
+    BuildComponent(int xPos, int Ypos)
     {
         parent.x = xPos-Game::camera.x;
         parent.y = Ypos-Game::camera.y;
