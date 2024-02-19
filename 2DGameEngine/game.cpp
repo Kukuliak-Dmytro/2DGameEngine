@@ -103,7 +103,7 @@ void Game::update()
 	mouse.CameraScroll(camera);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black
 	SDL_RenderClear(renderer);
-	mouse.BuildTurret();
+
 	
 	
 		
@@ -118,7 +118,6 @@ void Game::render() {
 	for (auto& t : turrets) { t->draw(); }
 	for (auto& e : enemies) { e->draw(); }
 	mouse.Hover();
-	mouse.BuildTurret();
 	SDL_RenderPresent(renderer);
 	
 };
@@ -146,10 +145,13 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos,bool isInteractive)
 	}
 }
 
-void Game::AddTurret(int srcX, int srcY, int xpos, int ypos)
+void Game::AddTurret(int xpos, int ypos)
 {
 	auto& turret(manager.addEntity());	
-	turret.addComponent<TransformComponent>(100,100,100,100,5);
+	turret.addComponent<TransformComponent>(xpos,ypos,128,128,1);
 	turret.addComponent<SpriteComponent>("assets/turret1.png", false);
+	turret.addComponent<Button>();
+	for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<LabelComponent>(); }
 	turret.addGroup(groupTurrets);
+	std::cout << "Turret built";
 }

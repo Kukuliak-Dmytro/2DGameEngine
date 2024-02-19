@@ -100,6 +100,26 @@ public:
         c->init();
         return *c;
     }
+    template <typename T>
+    void removeComponent() {
+        if (!hasComponent<T>()) {
+            // Component does not exist
+            return;
+        }
+
+        auto& component = getComponent<T>();
+        componentBitSet[getComponentTypeID<T>()] = false;
+
+        // Remove the component from the components vector
+        auto it = std::find_if(components.begin(), components.end(), [&](const std::unique_ptr<Component>& ptr) {
+            return ptr.get() == &component;
+            });
+
+        if (it != components.end()) {
+            components.erase(it);
+        }
+    }
+
 
     template <typename T> T& getComponent() const {
         auto ptr = componentArray[getComponentTypeID<T>()];

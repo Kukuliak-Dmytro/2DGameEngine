@@ -55,16 +55,8 @@ public:
 		hoverTexture = TextureManager::LoadTexture("assets/hover.png");
 		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE);
 
-		Uint32 mouseState = SDL_GetMouseState(nullptr, nullptr);
-		if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-			Game::AddTurret(0, 0, 100, 100);
-		}
+		
 	}
 
-	void BuildTurret() {
-		Uint32 mouseState = SDL_GetMouseState(nullptr, nullptr);
-		if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-			Game::AddTurret(0, 0, 100, 100);
-		}
-	}
+	
 };

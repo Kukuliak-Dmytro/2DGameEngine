@@ -35,16 +35,21 @@ public:
         button4 = TextureManager::LoadTexture("assets/button4.png");
         
     }
-
+        
     void draw() override {
         click(parent);
         if (drawbutton == true) {
+             
             TextureManager::Draw(button1, src1, dest1, SDL_FLIP_NONE);
             TextureManager::Draw(button2, src2, dest2, SDL_FLIP_NONE);
             TextureManager::Draw(button3, src3, dest3, SDL_FLIP_NONE);
             TextureManager::Draw(button4, src4, dest4, SDL_FLIP_NONE);
-        }
 
+               
+                
+
+            
+        }
     }
     void update() override {
         dest1.x = xPosTmp-64;           dest1.y = yPosTmp-64;
@@ -62,11 +67,29 @@ public:
         dest4.y -= Game::camera.y;
         parent.x = xPosTmp - Game::camera.x;
         parent.y = yPosTmp - Game::camera.y;
+        ////////////////////////
+        int mouseX, mouseY;
+        Uint32 mousestate = SDL_GetMouseState(&mouseX, &mouseY);
+        SDL_Point mousePoint = { mouseX, mouseY };
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN&&drawbutton==true) {
+
+            switch (Game::event.button.button) {
+            case SDL_BUTTON_LEFT:
+                if (SDL_PointInRect(&mousePoint, &dest1)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
+                if (SDL_PointInRect(&mousePoint, &dest2)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
+                if (SDL_PointInRect(&mousePoint, &dest3)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
+                if (SDL_PointInRect(&mousePoint, &dest4)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
+
+                break;
+            }
+
+
+        }
+
      }
     void click(SDL_Rect& testRect) override{
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
-
         SDL_Point mousePoint = { mouseX, mouseY };
         
         

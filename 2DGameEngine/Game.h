@@ -23,7 +23,7 @@ public:
 	void clean();
 	
 	static void AddTile(int srcX, int srcY, int xpos, int ypos, bool isInteractive);
-	static void AddTurret(int srcX, int srcY, int xpos, int ypos);
+	static void AddTurret( int xpos, int ypos);
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> colliders;
