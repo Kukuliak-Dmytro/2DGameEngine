@@ -12,7 +12,8 @@
 
 
 Map* map;
-extern Manager manager;
+ extern Manager manager;
+
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
@@ -72,6 +73,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	else { isRunning = false; }
 
 	if (TTF_Init() == -1) { std::cout << "Error initializing SDL_ttf"; }
+
 	map = new Map();
 	Map::LoadMap("assets/map.map", 20, 12);
 
