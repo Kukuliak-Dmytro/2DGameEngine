@@ -26,12 +26,9 @@ public:
 	static void AddTurret( int xpos, int ypos);
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
-
 	static std::vector<ColliderComponent*> colliders;
 	static bool isRunning;
-
 	static SDL_Rect camera;
-
 private:
 	int count = 0;
 	
