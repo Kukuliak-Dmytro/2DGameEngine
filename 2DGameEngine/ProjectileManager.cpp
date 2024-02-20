@@ -18,4 +18,13 @@ void ProjectileManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, 
 	projectile.addGroup(Game::groupProjectiles);
 }
 
+ void ProjectileManager::CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man)
+{
+	auto& enemy(man->addEntity());
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
+	enemy.addComponent<SpriteComponent>(id, false);
+	enemy.addComponent<EnemyComponent>( 100, vel);
+	enemy.addComponent<ColliderComponent>("projectile");
+	enemy.addGroup(Game::groupEnemies);
+}
 

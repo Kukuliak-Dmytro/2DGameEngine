@@ -78,7 +78,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(Game::groupTurrets);
 
-	ProjectileManager::CreateProjectile(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "assets/button1.png",&manager);
+	ProjectileManager::CreateProjectile(Vector2D(600, 600), Vector2D(4, 0), 200, 2, "assets/button1.png", &manager);
+	ProjectileManager::CreateEnemy(Vector2D(600, 600), Vector2D(2, 0), "assets/enemy.png", &manager);
+
 
 
 };

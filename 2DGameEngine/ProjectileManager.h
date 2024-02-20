@@ -16,6 +16,7 @@ public:
 	//gameobjects
 
 	static void CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, const char* id, Manager* man);
+	static void CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man);
 
 
 	

@@ -9,3 +9,4 @@
 #include "Button.h"
 #include "LabelComponent.h"
 #include "ProjectileComponent.h"
+#include "EnemyComponent.h"
