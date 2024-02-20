@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL_ttf.h>
+#include "ProjectileManager.h"
 
 class ColliderComponent;
 
@@ -29,6 +30,15 @@ public:
 	static std::vector<ColliderComponent*> colliders;
 	static bool isRunning;
 	static SDL_Rect camera;
+	
+	enum groupLabels : std::size_t
+	{
+		groupTilesMap,
+		groupTilesTrue,
+		groupTurrets,
+		groupEnemies,
+		groupProjectiles
+	};
 private:
 	int count = 0;
 	

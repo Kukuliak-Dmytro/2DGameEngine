@@ -8,3 +8,4 @@
 #include "TileComponent.h"
 #include "Button.h"
 #include "LabelComponent.h"
+#include "ProjectileComponent.h"

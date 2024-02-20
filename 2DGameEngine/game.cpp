@@ -7,14 +7,16 @@
 #include "Collision.h"
 #include "MouseControlls.h"
 #include "SDL_ttf.h"
+#include "ProjectileManager.h"
 
 
 
 
 Map* map;
-extern Manager manager;
+ 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+
 
 MouseControlls mouse;
 SDL_Rect Game::camera = { 320,192,640,456 };
@@ -27,17 +29,12 @@ auto& player(manager.addEntity());
 
 const char* mapfile = "assets/tiles.png";
 
-enum groupLabel : std::size_t
-{
-	groupTilesMap,
-	groupTilesTrue, 
-	groupTurrets, 
-	groupEnemies
-};
-auto& tilesTrue(manager.getGroup(groupTilesTrue));
-auto& tiles(manager.getGroup(groupTilesMap));
-auto& turrets(manager.getGroup(groupTurrets));
-auto& enemies(manager.getGroup(groupEnemies));
+
+auto& tilesTrue(manager.getGroup(Game::groupTilesTrue));
+auto& tiles(manager.getGroup(Game::groupTilesMap));
+auto& turrets(manager.getGroup(Game::groupTurrets));
+auto& enemies(manager.getGroup(Game::groupEnemies));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 
 
@@ -75,11 +72,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	map = new Map();
 	Map::LoadMap("assets/map.map", 20, 12);
 
-	player.addComponent<TransformComponent>(5);
+	player.addComponent<TransformComponent>(4);
 	player.addComponent<SpriteComponent>("assets/player_anims.png",true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
-	player.addGroup(groupTurrets);
+	player.addGroup(Game::groupTurrets);
+
+	ProjectileManager::CreateProjectile(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "assets/button1.png",&manager);
 
 
 };
@@ -117,6 +116,7 @@ void Game::render() {
 	for (auto& t : tilesTrue) { t->draw(); }
 	for (auto& t : turrets) { t->draw(); }
 	for (auto& e : enemies) { e->draw(); }
+	for (auto& p : projectiles) { p->draw(); }
 	mouse.Hover();
 	SDL_RenderPresent(renderer);
 	
@@ -136,12 +136,12 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos,bool isInteractive)
 	if (isInteractive==true) {
 		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
 		tile.addComponent<BuildComponent>(xpos, ypos);
-		tile.addGroup(groupTilesTrue);
+		tile.addGroup(Game::groupTilesTrue);
 	}
 	else
 	{
 		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, mapfile);
-		tile.addGroup(groupTilesMap);
+		tile.addGroup(Game::groupTilesMap);
 	}
 }
 
@@ -152,6 +152,6 @@ void Game::AddTurret(int xpos, int ypos)
 	turret.addComponent<SpriteComponent>("assets/turret1.png", false);
 	turret.addComponent<Button>();
 	for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<BuildComponent>(); }
-	turret.addGroup(groupTurrets);
+	turret.addGroup(Game::groupTurrets);
 	std::cout << "Turret built";
 }
