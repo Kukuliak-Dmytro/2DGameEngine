@@ -1,4 +1,4 @@
-#include "SDL.h"
+/* #include "SDL.h"
 #include "Collision.h"
 #include "ColliderComponent.h"
 
@@ -27,3 +27,4 @@ bool Collision::AABB(const ColliderComponent& colA, const ColliderComponent& col
 		return false;
 	}
 }
+*/

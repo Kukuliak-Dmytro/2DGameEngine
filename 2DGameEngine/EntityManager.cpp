@@ -1,14 +1,15 @@
-#include "ProjectileManager.h"
+#include "EntityManager.h"
 #include "Components.h"
 #include "Game.h"
 
-ProjectileManager::ProjectileManager() 
+
+EntityManager::EntityManager() 
 {}
 
-ProjectileManager::~ProjectileManager()
+EntityManager::~EntityManager()
 {}
 
-void ProjectileManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, const char *id, Manager* man)
+void EntityManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, const char *id, Manager* man)
 {
 	auto& projectile(man->addEntity());
 	projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
@@ -18,7 +19,7 @@ void ProjectileManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, 
 	projectile.addGroup(Game::groupProjectiles);
 }
 
- void ProjectileManager::CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man)
+ void EntityManager::CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man)
 {
 	auto& enemy(man->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);

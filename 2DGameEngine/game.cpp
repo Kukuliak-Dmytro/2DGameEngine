@@ -4,10 +4,10 @@
 #include "ECS.h"
 #include "Components.h"
 #include "Vector2D.h"
-#include "Collision.h"
+
 #include "MouseControlls.h"
 #include "SDL_ttf.h"
-#include "ProjectileManager.h"
+#include "EntityManager.h"
 
 
 
@@ -21,7 +21,6 @@ SDL_Event Game::event;
 MouseControlls mouse;
 SDL_Rect Game::camera = { 320,192,640,456 };
 
-std::vector<ColliderComponent*> Game::colliders;
 
 bool Game::isRunning = false;
 
@@ -78,8 +77,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(Game::groupTurrets);
 
-	ProjectileManager::CreateProjectile(Vector2D(600, 600), Vector2D(4, 0), 200, 2, "assets/button1.png", &manager);
-	ProjectileManager::CreateEnemy(Vector2D(600, 600), Vector2D(2, 0), "assets/enemy.png", &manager);
+	EntityManager::CreateProjectile(Vector2D(600, 600), Vector2D(4, 0), 200, 2, "assets/button1.png", &manager);
+	EntityManager::CreateEnemy(Vector2D(0, 700), Vector2D(2, 0), "assets/enemy.png", &manager);
 
 
 
@@ -104,7 +103,7 @@ void Game::update()
 	mouse.CameraScroll(camera);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black
 	SDL_RenderClear(renderer);
-
+	for (auto& t : turrets) { if( t->hasComponent<TurretComponent>())t->getComponent<TurretComponent>().inRange(manager); }
 	
 	
 		
@@ -152,7 +151,7 @@ void Game::AddTurret(int xpos, int ypos)
 	auto& turret(manager.addEntity());	
 	turret.addComponent<TransformComponent>(xpos,ypos,128,128,1);
 	turret.addComponent<SpriteComponent>("assets/turret1.png", false);
-	turret.addComponent<Button>();
+	turret.addComponent<TurretComponent>(xpos,ypos);
 	for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<BuildComponent>(); }
 	turret.addGroup(Game::groupTurrets);
 	std::cout << "Turret built";

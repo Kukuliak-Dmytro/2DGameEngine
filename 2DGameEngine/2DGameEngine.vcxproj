@@ -134,7 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ProjectileManager.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -147,16 +147,16 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="EnemyComponent.h" />
-    <ClInclude Include="ProjectileManager.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="TurretComponent.h" />
     <ClInclude Include="KeyboardController.h" />
-    <ClInclude Include="LabelComponent.h" />
+    <ClInclude Include="BuildComponent.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MouseControlls.h" />
     <ClInclude Include="ProjectileComponent.h" />

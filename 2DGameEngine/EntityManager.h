@@ -7,11 +7,11 @@
 #include "ECS.h"
 #include "SDL_ttf.h"
 
-class ProjectileManager
+class EntityManager
 {
 public:
-	ProjectileManager();
-	~ProjectileManager();
+	EntityManager();
+	~EntityManager();
 
 	//gameobjects
 

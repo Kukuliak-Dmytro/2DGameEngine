@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 
-class BuildComponent : public Button
+class BuildComponent : public Component
 {
 private:
     SDL_Rect src1, dest1, parent;
@@ -87,7 +87,7 @@ public:
         }
 
      }
-    void click(SDL_Rect& testRect) override{
+    void click(SDL_Rect& testRect) {
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
         SDL_Point mousePoint = { mouseX, mouseY };

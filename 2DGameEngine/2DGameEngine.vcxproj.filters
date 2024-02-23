@@ -42,7 +42,7 @@
     <ClCompile Include="ECS.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectileManager.cpp">
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,16 +92,16 @@
     <ClInclude Include="MouseControlls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="TurretComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="LabelComponent.h">
+    <ClInclude Include="BuildComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectileManager.h">
+    <ClInclude Include="EntityManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyComponent.h">
