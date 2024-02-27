@@ -9,7 +9,8 @@ private:
     SDL_Rect src3, dest3;
     SDL_Rect src4, dest4;
     SDL_Texture *button1, *button2, *button3, *button4;
-    bool drawbutton = false;
+    bool 
+        drawbutton = false;
     int xPosTmp, yPosTmp;//для динамічного визначення позиції рендеру кнопок
 
 
@@ -40,10 +41,10 @@ public:
         click(parent);
         if (drawbutton == true) {
              
-            TextureManager::Draw(button1, src1, dest1, SDL_FLIP_NONE);
-            TextureManager::Draw(button2, src2, dest2, SDL_FLIP_NONE);
-            TextureManager::Draw(button3, src3, dest3, SDL_FLIP_NONE);
-            TextureManager::Draw(button4, src4, dest4, SDL_FLIP_NONE);
+            TextureManager::Draw(button1, src1, dest1, SDL_FLIP_NONE,0);
+            TextureManager::Draw(button2, src2, dest2, SDL_FLIP_NONE,0);
+            TextureManager::Draw(button3, src3, dest3, SDL_FLIP_NONE,0);
+            TextureManager::Draw(button4, src4, dest4, SDL_FLIP_NONE,0);
 
                
                 

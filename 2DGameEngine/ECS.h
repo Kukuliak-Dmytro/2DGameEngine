@@ -125,6 +125,7 @@ public:
         auto ptr = componentArray[getComponentTypeID<T>()];
         return *static_cast<T*>(ptr);
     }
+
 };
 
 class Manager {
@@ -177,4 +178,5 @@ public:
         entities.emplace_back(std::move(uPtr));
         return *e;
     }
+   
 };

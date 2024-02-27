@@ -53,7 +53,7 @@ public:
 		dest.x = position.x  * 128 - Game::camera.x;
 		dest.y = position.y  * 128 - Game::camera.y;
 		hoverTexture = TextureManager::LoadTexture("assets/hover.png");
-		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE);
+		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE,0);
 
 		
 	}

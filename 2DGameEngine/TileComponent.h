@@ -40,7 +40,7 @@ public:
 	}
 	void draw()override
 	{
-		TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
+		TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE,0);
 	
 	}
 

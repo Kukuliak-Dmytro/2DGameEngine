@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="DummyComponent.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ColliderComponent.h" />

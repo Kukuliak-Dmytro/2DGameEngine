@@ -10,3 +10,4 @@
 #include "BuildComponent.h"
 #include "ProjectileComponent.h"
 #include "EnemyComponent.h"
+#include "DummyComponent.h"

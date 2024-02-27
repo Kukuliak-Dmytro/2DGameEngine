@@ -11,10 +11,11 @@ private:
 	TransformComponent *transform;
 	SDL_Texture* texture;
 	SDL_Rect srcRect, destRect;
-
+	int rotation = 0;
 	bool animated = false;
 	int frames = 0;
 	int speed = 100;
+
 public:
 	int animIndex = 0;
 	std::map<const char*, Animation> animations;
@@ -26,12 +27,26 @@ public:
 	{
 		setTex(path);
 	}
-
-	SpriteComponent(const char* path, bool isAnimated) 
+	SpriteComponent(const char* path, bool isAnimated)
 	{
 		animated = isAnimated;
 		Animation idle = Animation(0, 3, 100);
 		Animation walk = Animation(1, 8, 100);
+		
+
+		animations.emplace("Idle", idle);
+		animations.emplace("Walk", walk);
+
+		Play("Idle");
+		setTex(path);
+	}
+
+	SpriteComponent(const char* path, bool isAnimated, int xpos, int ypos) 
+	{
+		animated = isAnimated;
+		Animation idle = Animation(0, 3, 100);
+		Animation walk = Animation(1, 8, 100);
+		srcRect.x = xpos; srcRect.x = ypos;
 
 		animations.emplace("Idle", idle);
 		animations.emplace("Walk", walk);
@@ -75,10 +90,12 @@ public:
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
+	void setRotation(float angle) { rotation = angle-270; }
 
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect,spriteFlip);
+		TextureManager::Draw(texture, srcRect, destRect,spriteFlip, rotation);
+		
 	}
 
 	void Play(const char* animName)

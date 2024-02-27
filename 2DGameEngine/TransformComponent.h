@@ -8,6 +8,7 @@ public:
 
 	Vector2D position;
 	Vector2D velocity;
+	SDL_Point center;
 
 	int height = 32;
 	int width = 32;
@@ -32,16 +33,17 @@ public:
 		position.x = x;
 		position.y = y;
 		
+		
 	}
 
-	TransformComponent(float x, float y, int h, int w, int scale)
+	TransformComponent(float x, float y, int h, int w, int speed)
 	{
 		position.x = x;
 		position.y = y;
 		height = h;
 		width = w;
-		this->scale = scale;
-		
+		this->speed = speed;
+	
 	}
 	
 	void init() override {
@@ -51,7 +53,8 @@ public:
 	{
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
-
+		center.x = position.x + width ;
+		center.y = position.y + height;
 	}
 	
 };
