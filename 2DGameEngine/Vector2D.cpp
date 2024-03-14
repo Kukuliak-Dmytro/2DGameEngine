@@ -106,3 +106,14 @@ Vector2D& Vector2D::Multiply(const Vector2D& vec)
 	  stream << "(" << vec.x << "," << vec.y << ")";
 	  return stream;
  }
+  void Vector2D::normalize() {
+	  // Calculate the magnitude (length) of the vector
+	  float magnitude = sqrt(x * x + y * y);
+
+	  // Avoid division by zero
+	  if (magnitude != 0) {
+		  // Normalize each component by dividing by the magnitude
+		  x /= magnitude;
+		  y /= magnitude;
+	  }
+  }

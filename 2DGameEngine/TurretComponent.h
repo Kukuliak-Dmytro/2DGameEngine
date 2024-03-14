@@ -28,15 +28,16 @@ public:
         parent.x = x - Game::camera.x;
         parent.y = y - Game::camera.y;
         parent.h = parent.w = 128;
-        A0.x = x + 64 / 2;
-        A0.y = y + 64 / 2;
+        A0.x = x + 128 / 2;
+        A0.y = y + 128 / 2;
       
         
     }
 
   
     void update() override {
-        
+        entity->getComponent<TurretComponent>().shoot(entity->getManager());
+        entity->getComponent<SpriteComponent>().setRotation(entity->getComponent<TurretComponent>().getDegrees());
 
     }    
 
@@ -68,27 +69,37 @@ public:
 
     void shoot(Manager& manager)
     {
-        
-        auto& e = manager.getGroup(Game::groupEnemies).front();
-          
-                if (distance(e->getComponent<ColliderComponent>().collider, parent) < 700) {
-                    float dxLength = dx(e->getComponent<ColliderComponent>().collider);
-                    float dyLength = dy(e->getComponent<ColliderComponent>().collider);
+        if (!manager.getGroup(Game::groupEnemies).empty()) {
+            auto& e = manager.getGroup(Game::groupEnemies).front();
 
-                    float angleRadians = atan2(dyLength, dxLength);
-                    angleDegrees = angleRadians * 180.0f / M_PI;
+            if (distance(e->getComponent<ColliderComponent>().collider, parent) < 700) {
+     
+                float dxLength = dx(e->getComponent<ColliderComponent>().collider);
+                float dyLength = dy(e->getComponent<ColliderComponent>().collider);
+                Vector2D direction(dxLength, dyLength);
+                direction.normalize();
+    
 
-                    if (angleDegrees < 0) {
-                        angleDegrees += 360.0f;
-                    }
+               
+                float angleRadians = atan2(dyLength, dxLength);
+                angleDegrees = angleRadians * 180.0f / M_PI;
 
-                    if (shootDelay >= 1000) {
-                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), Vector2D(dxLength / 100, dyLength / 100), 200, 5, "assets/button1.png", &manager);
-                        shootDelay = 0;
+                //if (angleDegrees < 0) {
+                //    angleDegrees += 360.0f;
+                //}
 
-                    }
-                    shootDelay = shootDelay + 100;
+                if (shootDelay >= 1000) {
+                    EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 200, 10, 10, "assets/button1.png", &manager);
+                    shootDelay = 0;
+                    entity->getComponent<SpriteComponent>().Play("Shoot");
+                 
                 }
+                shootDelay = shootDelay + 50;
+              
+            }
+        }
+        else
+        entity->getComponent<SpriteComponent>().Play("Idle");
             
 
         

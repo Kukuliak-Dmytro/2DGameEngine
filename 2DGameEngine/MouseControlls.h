@@ -5,21 +5,33 @@
 #include <sstream>
 #include "Game.h"
 
+// Оголошення екземпляру менеджера
 Manager manager;
+
+// Клас для управління мишою
 class MouseControlls
 {
 public:
+	// Структура для позиції на сітці
 	struct GridPosition {
 		int x, y;
 	} position;
+
+	// Прямокутники для відображення текстур
 	SDL_Rect src, dest;
 
+	// Текстури для підказок миші
 	SDL_Texture* hoverTexture;
 	SDL_Texture* test;
+
+	// Попередні та поточні позиції миші
 	SDL_Point prevPos;
 	SDL_Point mousePos;
 
+	// Конструктор за замовчуванням
 	MouseControlls() = default;
+
+	// Функція для прокрутки камери за допомогою миші
 	void CameraScroll(SDL_Rect& camera) {
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
 
@@ -36,27 +48,32 @@ public:
 		if (camera.x > camera.w) camera.x = camera.w;
 		if (camera.y > camera.h) camera.y = camera.h;
 	}
+
+	// Функція для отримання позиції на сітці
 	GridPosition getGrid() {
 		return position;
 	}
+
+	// Функція для відображення підказки миші
 	void Hover() {
 		SDL_GetMouseState(&mousePos.x, &mousePos.y);
 
-		position.x = ((mousePos.x + Game::camera.x) / 128) ;
-		position.y = ((mousePos.y + Game::camera.y) / 128) ;
+		// Обчислення позиції на сітці
+		position.x = ((mousePos.x + Game::camera.x) / 128);
+		position.y = ((mousePos.y + Game::camera.y) / 128);
 
+		// Налаштування прямокутників
 		src.x = src.y = 0;
 		src.w = src.h = 128;
 
 		dest.w = dest.h = 128;
+		dest.x = position.x * 128 - Game::camera.x;
+		dest.y = position.y * 128 - Game::camera.y;
 
-		dest.x = position.x  * 128 - Game::camera.x;
-		dest.y = position.y  * 128 - Game::camera.y;
+		// Завантаження текстури для підказки
 		hoverTexture = TextureManager::LoadTexture("assets/hover.png");
-		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE,0);
 
-		
+		// Відображення підказки
+		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE, 0);
 	}
-
-	
 };

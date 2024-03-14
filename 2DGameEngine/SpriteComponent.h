@@ -30,31 +30,18 @@ public:
 	SpriteComponent(const char* path, bool isAnimated)
 	{
 		animated = isAnimated;
-		Animation idle = Animation(0, 3, 100);
-		Animation walk = Animation(1, 8, 100);
+		Animation idle = Animation(0, 1, 1000);
+		Animation shoot = Animation(1, 2, 150);
 		
 
 		animations.emplace("Idle", idle);
-		animations.emplace("Walk", walk);
+		animations.emplace("Shoot", shoot);
 
 		Play("Idle");
 		setTex(path);
 	}
 
-	SpriteComponent(const char* path, bool isAnimated, int xpos, int ypos) 
-	{
-		animated = isAnimated;
-		Animation idle = Animation(0, 3, 100);
-		Animation walk = Animation(1, 8, 100);
-		srcRect.x = xpos; srcRect.x = ypos;
-
-		animations.emplace("Idle", idle);
-		animations.emplace("Walk", walk);
 	
-		Play("Idle");
-		setTex(path);
-	}
-
 	~SpriteComponent() 
 	{
 		SDL_DestroyTexture(texture);
@@ -82,7 +69,7 @@ public:
 		{
 			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed)%frames);
 		}
-		srcRect.y = animIndex * transform->height;
+		
 
 		destRect.x =static_cast<int>(transform->position.x)-Game::camera.x;
 		destRect.y =static_cast<int>(transform->position.y)-Game::camera.y;
@@ -104,4 +91,9 @@ public:
 		animIndex = animations[animName].index;
 		speed = animations[animName].speed;
 	}
+
+	void setPlay(int x) {
+		srcRect.x = srcRect.w * x;
+	}
+
 };
