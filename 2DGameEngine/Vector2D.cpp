@@ -107,13 +107,26 @@ Vector2D& Vector2D::Multiply(const Vector2D& vec)
 	  return stream;
  }
   void Vector2D::normalize() {
-	  // Calculate the magnitude (length) of the vector
+	  //Нормалізація вектора - переведення його довжини в 1, але зберігаючи напрям
+
 	  float magnitude = sqrt(x * x + y * y);
 
-	  // Avoid division by zero
 	  if (magnitude != 0) {
-		  // Normalize each component by dividing by the magnitude
+
 		  x /= magnitude;
 		  y /= magnitude;
 	  }
+  }
+  void Vector2D::normalize(int a) {
+//нормалізація вектора за параметром - переведення його довжини в параметр а, зберігаючи напрям
+	  float magnitude = sqrt(x * x + y * y);
+
+
+	  if (magnitude != 0) {
+
+		  x /= magnitude;
+		  y /= magnitude;
+	  }
+	  x = x * a;
+	  y = y * a;
   }

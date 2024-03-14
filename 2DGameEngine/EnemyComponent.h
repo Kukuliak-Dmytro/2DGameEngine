@@ -7,29 +7,32 @@
 
 class EnemyComponent : public Component
 {
+private:
+	//A pointer to the <TransformComponent>
+	TransformComponent* transform;
+
+	Vector2D Direction;
+	int health = 100;
+	int coins;
+	SDL_Rect src;
+	SDL_Rect dest;
+
 public:
 	EnemyComponent(){}
-	EnemyComponent(int hp, Vector2D vel) :velocit(vel),health(hp) 
+	EnemyComponent(int hp, Vector2D vel) :Direction(vel),health(hp) 
 	{
 	
 	}
 	~EnemyComponent() {}
 	void init() override
 	{
+		//The enemy would move linearly according to the velococity vector
 		transform = &entity->getComponent<TransformComponent>();
-		transform->velocity = velocit;
+		transform->velocity = Direction;
 	}
-
-	void update() override
-	{
-		if (health <= 0) {
-			std::cout << "Health reached zero";
-			entity->destroy();
-		}
-		
-		entity->getComponent<EnemyComponent>().checkCollision(entity->getManager());
-		
-	}
+	//The function draws a health bar over the opponent
+	//Basically draw a black bar first, and then a colored one based on health
+	//The source rectangle is dinamically changed so that the bar changes as well
 	void draw() override{
 		src.x = src.y = 0; src.h = src.w = 10;
 		dest.x = transform->position.x -Game::camera.x;
@@ -46,24 +49,37 @@ public:
 		TextureManager::Draw(TextureManager::LoadTexture("assets/health_bar.png"), src, dest, SDL_FLIP_NONE, 0);
 	}
 
+	//Function that checks each projectile against each enemy
 	void checkCollision(Manager& manager) {
-		for (auto& e : manager.getGroup(Game::groupEnemies)) {
-			for (auto& p : manager.getGroup(Game::groupProjectiles))
+		for (auto& p : manager.getGroup(Game::groupProjectiles)) {
+			for (auto& e : manager.getGroup(Game::groupEnemies)) {
+				//SDL_HasIntersection is a bulit-in function used for defining collision between two "SDL_Rect" objects
 				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)) {
+					//Subtract the damage inflicted
 					health = health - p->getComponent<ProjectileComponent>().getDmg();
+					//It is required so that the projectile would only hit ONE enemy and disappear, otherwise it would hit the closese ones as well
+					//Remove this for creating projectiles with AOE damage
 					p->getComponent<ProjectileComponent>().setDmg(0);
+					//Destroy the projectle on impact
+					//Remove for penetrating bullets
+					p->destroy();
 					std::cout << health << std::endl;
+				}
 			}
 		}
 	}
-private:
+	void update() override
+	{
+		//Destroying enemy if health reached zero
+		if (health <= 0) {
+			std::cout << "Health reached zero";
+			entity->destroy();
+		}
+		//Looping checking collisions
+		entity->getComponent<EnemyComponent>().checkCollision(entity->getManager());
 
-	TransformComponent* transform;
-	Vector2D velocit;
-	int health=100;
-	int coins;
-	SDL_Rect src;
-	SDL_Rect dest;
+	}
+
 
 
 };

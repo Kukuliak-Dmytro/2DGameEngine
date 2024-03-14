@@ -1,12 +1,13 @@
 #pragma once
 
 #include <math.h>
- 
+#include <chrono>
 #include "Components.h"
 #include "ECS.h"
 #include "ProjectileComponent.h"
 #include "EnemyComponent.h"
 #include "EntityManager.h"
+#include "Tools.h"
 
 
 
@@ -14,10 +15,17 @@
 class TurretComponent :public Component
 {    
 private:
+    //Rectangle that holds the position of the turret
     SDL_Rect parent;
+    //The central point, holds the position where the projectile would be initialized
     SDL_Point A0;
+    //The angle of turret rotation
     float angleDegrees;
-    int shootDelay = 1000;
+    //The delay between shots
+    // 1000 milliseconds = 1 second
+    const int shootDelayDuration = 450; 
+    //Chrono to measure time between shots
+    std::chrono::steady_clock::time_point lastShotTime;
 
 public:
     TurretComponent() {
@@ -25,87 +33,61 @@ public:
     }
     TurretComponent(int x, int y)
     {
-        parent.x = x - Game::camera.x;
-        parent.y = y - Game::camera.y;
+     
+        parent.x = x;
+        parent.y = y;
         parent.h = parent.w = 128;
         A0.x = x + 128 / 2;
         A0.y = y + 128 / 2;
-      
+       
         
-    }
-
-  
-    void update() override {
-        entity->getComponent<TurretComponent>().shoot(entity->getManager());
-        entity->getComponent<SpriteComponent>().setRotation(entity->getComponent<TurretComponent>().getDegrees());
-
-    }    
-
-    
-    float distance(SDL_Rect rect1, SDL_Rect rect2)
-    {
-        float x1 = rect1.x + rect1.w / 2;
-        float y1 = rect1.y + rect1.h / 2;
-        float x2 = rect2.x + rect2.w / 2;
-        float y2 = rect2.y + rect2.h / 2;
-        float delta;
-        delta = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
-        return delta;
-    }
-
-
-    float dx(SDL_Rect& rect)
-    {
-
-        return (rect.x+(rect.w/2)) - A0.x;
-    }
-
-    float dy(SDL_Rect& rect)
-    {
-        return (rect.y + (rect.h / 2)) - A0.y;
-    }
-    
-    float& getDegrees() { return angleDegrees; }
-
+    } 
+ 
+    //Method that checks enemies within range and automatically shoots
     void shoot(Manager& manager)
     {
+        //Getting the groupEnemies vector and checking !empty, otherwisw - crash
         if (!manager.getGroup(Game::groupEnemies).empty()) {
+            //Aiming at the first enemy in the vector
             auto& e = manager.getGroup(Game::groupEnemies).front();
-
-            if (distance(e->getComponent<ColliderComponent>().collider, parent) < 700) {
-     
-                float dxLength = dx(e->getComponent<ColliderComponent>().collider);
-                float dyLength = dy(e->getComponent<ColliderComponent>().collider);
+            //Measures elapsed time until the required "shootDelayDuration" has passed.
+            //It is here because the turret must reload evem when there aren`t enemies in range
+            auto currentTime = std::chrono::steady_clock::now();
+            std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
+            //If in range
+            if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < 700) 
+            {
+                //Calculating horisontal and vertical distances using trigonometry
+                float dxLength = tools::dx(e->getComponent<ColliderComponent>().collider, parent);
+                float dyLength = tools::dy(e->getComponent<ColliderComponent>().collider, parent);
+                //and setting the direction of the vector according to those values
                 Vector2D direction(dxLength, dyLength);
-                direction.normalize();
-    
-
-               
+                //Normalizing the vector = keeps the same direction, but its modulus is set to 1
+                direction.normalize();       
+                //Calculating angle in radians adn converting to degrees
                 float angleRadians = atan2(dyLength, dxLength);
                 angleDegrees = angleRadians * 180.0f / M_PI;
-
-                //if (angleDegrees < 0) {
-                //    angleDegrees += 360.0f;
-                //}
-
-                if (shootDelay >= 1000) {
-                    EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 200, 10, 10, "assets/button1.png", &manager);
-                    shootDelay = 0;
-                    entity->getComponent<SpriteComponent>().Play("Shoot");
-                 
-                }
-                shootDelay = shootDelay + 50;
-              
+                
+                //If the required time has passed            
+                if (elapsedTime.count() >= shootDelayDuration) {
+                    //Create projectile and call animation
+                    EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 500, 3, 10, "assets/button1.png", &manager, *e);
+                    lastShotTime = std::chrono::steady_clock::now();
+                    entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
+                }             
             }
+            else entity->getComponent<SpriteComponent>().Play("Idle");
+                       
         }
-        else
-        entity->getComponent<SpriteComponent>().Play("Idle");
-            
-
-        
+        else entity->getComponent<SpriteComponent>().Play("Idle");
     }
 
+    void update() override {
+        //Calling shoot() on a regular basis
+        entity->getComponent<TurretComponent>().shoot(entity->getManager());
+        //Setting the rotation using a setter because the render is in <SpriteComponent>
+        entity->getComponent<SpriteComponent>().setRotation(angleDegrees);
 
-
+    }
 
 };

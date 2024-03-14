@@ -9,6 +9,7 @@ public:
 	Vector2D(float x, float y);
 		
 	void normalize();
+	void normalize(int a);
 
 	Vector2D& Add(const Vector2D& vector);
 	Vector2D& Subtract(const Vector2D& vector);

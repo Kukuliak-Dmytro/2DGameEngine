@@ -3,13 +3,12 @@
 {
 	 int index;
 	 int frames;
-	 int speed;
+
 	 Animation() {}
-	 Animation(int i, int f, int s)
+	 Animation(int i, int f)
 	 {
 		 index = i;
-		 frames = f;
-		 speed = s;
+		 frames = f;	
 
 	 }
 

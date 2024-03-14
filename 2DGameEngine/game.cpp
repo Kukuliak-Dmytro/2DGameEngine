@@ -1,3 +1,4 @@
+
 #include "Game.h"
 #include "TextureManager.h"
 #include "Map.h"
@@ -80,8 +81,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<ColliderComponent>("player");
     player.addGroup(Game::groupTurrets);
 
-  //  EntityManager::CreateEnemy(Vector2D(0, 500), Vector2D(1, 0), "assets/enemy.png", &manager);
-    EntityManager::CreateEnemy(Vector2D(500, 0), Vector2D(0, 1), "assets/enemy.png", &manager);
+    for (int i = 0; i < 10; i++) {
+        auto time1=SDL_GetTicks();
+        EntityManager::CreateEnemy(Vector2D(500, i*3), Vector2D(0, 0.5), "assets/enemy.png", &manager);
+       
+    }
+    
 
     AddTurret(8 * 128, 4 * 128);
 };
@@ -113,9 +118,10 @@ void Game::render() {
     SDL_RenderClear(renderer);
     for (auto& t : tiles) { t->draw(); }
     for (auto& t : tilesTrue) { t->draw(); }
+    for (auto& p : projectiles) { p->draw(); }
     for (auto& t : turrets) { t->draw(); }
     for (auto& e : enemies) { e->draw(); }
-    for (auto& p : projectiles) { p->draw(); }
+   
     mouse.Hover();
     SDL_RenderPresent(renderer);
 };

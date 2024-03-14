@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "Animation.h"
 #include <map>
+#include <chrono>
 
 class SpriteComponent : public Component{
 private:
@@ -14,7 +15,13 @@ private:
 	int rotation = 0;
 	bool animated = false;
 	int frames = 0;
-	int speed = 100;
+	int speed = 0;
+	bool shootFlag = false;
+	//Flag that switches between animations
+	//This is a bad approach, since I need to add an array and every time to skip through each frame.
+	//But I have only 2 frames due to the simplicity of the game. So, this slack would pass
+
+	std::chrono::steady_clock::time_point lastShotTime;
 
 public:
 	int animIndex = 0;
@@ -30,8 +37,10 @@ public:
 	SpriteComponent(const char* path, bool isAnimated)
 	{
 		animated = isAnimated;
-		Animation idle = Animation(0, 1, 1000);
-		Animation shoot = Animation(1, 2, 150);
+		Animation idle = Animation(0, 1);
+		Animation shoot = Animation(1, 2);
+		//Also idle animation is a bad approach. Again, because the game is simple, I didn`t add an idle animation
+		//Instead, I just turn off the animation at idle animation
 		
 
 		animations.emplace("Idle", idle);
@@ -58,8 +67,6 @@ public:
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
-	
-
 	}
 
 
@@ -67,7 +74,19 @@ public:
 	{
 		if(animated)
 		{
-			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed)%frames);
+			//The current point of time
+			auto currentTime = std::chrono::steady_clock::now();
+			//I have no idea how it works, but the cicle works every "speed" milliseconds
+			std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
+			if (elapsedTime.count() >= speed) {
+				//Flip through frames, the code simplicity just because I have 2 frames only
+				//A better approach would be to overload ++ operator and allow "frames" number of values, iterate each time,
+				//and if the value exceeds "frames", to start at zero, or at first frame
+				//Anyway, this game doesn`t require that difficult operations, for now
+				srcRect.x = srcRect.w * !shootFlag*(frames-1);
+				lastShotTime = std::chrono::steady_clock::now();
+				shootFlag = !shootFlag;
+			}
 		}
 		
 
@@ -85,15 +104,24 @@ public:
 		
 	}
 
-	void Play(const char* animName)
+	void Play(const char* animName)	
+		//If the function is called without speed parameter, there would be no animation
 	{
+		animated = false;
 		frames = animations[animName].frames;
 		animIndex = animations[animName].index;
-		speed = animations[animName].speed;
+		
 	}
 
-	void setPlay(int x) {
-		srcRect.x = srcRect.w * x;
+	void Play(const char* animName, int sp)
+	{
+		//If the function is called with speed variable, the sprite would be animated
+		animated = true;
+		frames = animations[animName].frames;
+		animIndex = animations[animName].index;
+		//Divide by two because the barrel of the gun needs time to move back and forth
+		speed = sp/2;
 	}
+
 
 };
