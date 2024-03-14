@@ -56,14 +56,14 @@ public:
 				//SDL_HasIntersection is a bulit-in function used for defining collision between two "SDL_Rect" objects
 				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)) {
 					//Subtract the damage inflicted
-					health = health - p->getComponent<ProjectileComponent>().getDmg();
+					e->getComponent<EnemyComponent>().health = e->getComponent<EnemyComponent>().health - p->getComponent<ProjectileComponent>().getDmg();
 					//It is required so that the projectile would only hit ONE enemy and disappear, otherwise it would hit the closese ones as well
 					//Remove this for creating projectiles with AOE damage
 					p->getComponent<ProjectileComponent>().setDmg(0);
 					//Destroy the projectle on impact
 					//Remove for penetrating bullets
 					p->destroy();
-					std::cout << health << std::endl;
+					//std::cout << health << std::endl;
 				}
 			}
 		}

@@ -83,9 +83,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     for (int i = 0; i < 10; i++) {
         auto time1=SDL_GetTicks();
-        EntityManager::CreateEnemy(Vector2D(500, i*3), Vector2D(0, 0.5), "assets/enemy.png", &manager);
-       
+        EntityManager::CreateEnemy(Vector2D(500, i*100), Vector2D(0, 0.2), "assets/enemy.png", &manager);       
     }
+    //required!!
+   std::reverse(manager.getGroup(groupEnemies).begin(), manager.getGroup(groupEnemies).end());
     
 
     AddTurret(8 * 128, 4 * 128);
@@ -118,9 +119,10 @@ void Game::render() {
     SDL_RenderClear(renderer);
     for (auto& t : tiles) { t->draw(); }
     for (auto& t : tilesTrue) { t->draw(); }
+    for (auto& e : enemies) { e->draw(); }
     for (auto& p : projectiles) { p->draw(); }
     for (auto& t : turrets) { t->draw(); }
-    for (auto& e : enemies) { e->draw(); }
+  
    
     mouse.Hover();
     SDL_RenderPresent(renderer);

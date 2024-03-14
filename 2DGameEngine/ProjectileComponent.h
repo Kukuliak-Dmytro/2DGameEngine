@@ -53,10 +53,11 @@ public:
 	//It is called in update() function
 	void setAim() {		
 		//If the targeted enemy is still alive
-		if (target.isActive()==true) {
+		//Possible to add a mechanism so that the projectile would find a target after its death 
+		if (target.isActive() == true) {
 			//Let the projectile fly some distance without chasing the enemy to look more natural
 			//But not too much or too little
-			if (distance > 10) {
+			if (distance > 50) {
 				//Calculate the vertical and horizontal distances
 				float dxLength = tools::dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
 				float dyLength = tools::dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
@@ -67,7 +68,8 @@ public:
 				//And change the diraction of projectile to the vector pointing at the enemy
 				transform->velocity = test;
 			}
-		}	
+		}
+		
 	}
 
 

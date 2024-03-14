@@ -12,7 +12,7 @@ private:
 	TransformComponent *transform;
 	SDL_Texture* texture;
 	SDL_Rect srcRect, destRect;
-	int rotation = 0;
+	int rotation = 90;
 	bool animated = false;
 	int frames = 0;
 	int speed = 0;
