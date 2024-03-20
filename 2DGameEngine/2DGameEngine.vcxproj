@@ -154,6 +154,7 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PortalComponent.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="TurretComponent.h" />
     <ClInclude Include="KeyboardController.h" />

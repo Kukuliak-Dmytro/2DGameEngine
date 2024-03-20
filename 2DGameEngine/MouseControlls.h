@@ -6,7 +6,7 @@
 #include "Game.h"
 
 // ќголошенн€ екземпл€ру менеджера
-Manager manager;
+
 
 //  лас дл€ управл≥нн€ мишою
 class MouseControlls

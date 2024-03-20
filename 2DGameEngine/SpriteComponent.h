@@ -39,12 +39,14 @@ public:
 		animated = isAnimated;
 		Animation idle = Animation(0, 1);
 		Animation shoot = Animation(1, 2);
+		Animation portal = Animation(2, 2);
 		//Also idle animation is a bad approach. Again, because the game is simple, I didn`t add an idle animation
 		//Instead, I just turn off the animation at idle animation
 		
-
+		
 		animations.emplace("Idle", idle);
 		animations.emplace("Shoot", shoot);
+		animations.emplace("Portal", portal);
 
 		Play("Idle");
 		setTex(path);
@@ -97,6 +99,8 @@ public:
 		destRect.h = transform->height * transform->scale;
 	}
 	void setRotation(float angle) { rotation = angle-270; }
+
+	SDL_Rect& getRect() { return destRect; }
 
 	void draw() override
 	{

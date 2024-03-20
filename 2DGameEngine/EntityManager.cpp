@@ -15,9 +15,9 @@ void EntityManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, int 
 	projectile.addComponent<TransformComponent>(pos.x, pos.y, 16, 16, speed);
 	projectile.addComponent<SpriteComponent>(id, false);
 	projectile.addComponent<ProjectileComponent>(range, speed, vel, dmg, enemy);
-	projectile.addComponent<ColliderComponent>("projectile");
+	projectile.addComponent<ColliderComponent>("enemy");
 	projectile.addGroup(Game::groupProjectiles);
-	//std::cout << "Projectile created";
+	std::cout << "Projectile created";
 }
 
  void EntityManager::CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man)

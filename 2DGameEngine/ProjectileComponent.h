@@ -38,11 +38,14 @@ public:
 		//and if the distance travelled is greater than range the projectile , it disappears
 		if (distance > range)
 		{
-			std::cout << "Out of Range" << std::endl;
+			//std::cout << "Out of Range" << std::endl;
 			entity->destroy();
 		}
 
+		
 		setAim();
+		
+
 	
 	}
 	//Setters and getters to access private data
@@ -51,25 +54,30 @@ public:
 
 	//Function that makes the projectiles chase the enemy some time after beign fired
 	//It is called in update() function
-	void setAim() {		
-		//If the targeted enemy is still alive
-		//Possible to add a mechanism so that the projectile would find a target after its death 
-		if (target.isActive() == true) {
+	void setAim() {				 	
+			//Possible to add a mechanism so that the projectile would find a target after its death 
+			//If the targeted enemy is still alive
+		
 			//Let the projectile fly some distance without chasing the enemy to look more natural
-			//But not too much or too little
+		if (target.isActive() == true) {
 			if (distance > 50) {
 				//Calculate the vertical and horizontal distances
 				float dxLength = tools::dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
 				float dyLength = tools::dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
 				//Define a vector with parameters of direction
-				Vector2D test(-dxLength, -dyLength);
+				Vector2D direction(-dxLength, -dyLength);
 				//Call a normalize function that would set the modulus of vector(length a.k.a. speed in our case) to "speed" variable
-				test.normalize(speed);
-				//And change the diraction of projectile to the vector pointing at the enemy
-				transform->velocity = test;
+				direction.normalize(speed);
+				//And change the direction of projectile to the vector pointing at the enemy
+				transform->velocity = direction;
 			}
 		}
+		else
+			if (tools::distance(entity->getComponent<ColliderComponent>().collider, entity->getComponent<TransformComponent>().startPosition) > 700) {
+				entity->destroy();
+		}
 		
+				
 	}
 
 

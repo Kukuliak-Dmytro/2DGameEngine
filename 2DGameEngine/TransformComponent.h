@@ -5,7 +5,7 @@
 class TransformComponent : public Component {
 
 public:
-
+	SDL_Rect startPosition;
 	Vector2D position;
 	Vector2D velocity;
 	SDL_Point center;
@@ -31,14 +31,28 @@ public:
 	{
 		position.x = x;
 		position.y = y;
+		startPosition.x = x;
+		startPosition.y = y;
 		
 		
+	}
+	TransformComponent(float x, float y, int h, int w)
+	{
+		position.x = x;
+		position.y = y;
+		startPosition.x = x;
+		startPosition.y = y;
+		height = h;
+		width = w;
+
 	}
 
 	TransformComponent(float x, float y, int h, int w, int speed)
 	{
 		position.x = x;
 		position.y = y;
+		startPosition.x = x;
+		startPosition.y = y;
 		height = h;
 		width = w;
 		this->speed = speed;

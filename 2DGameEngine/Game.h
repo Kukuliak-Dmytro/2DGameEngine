@@ -58,11 +58,10 @@ public:
 		groupTilesTrue,
 		groupTurrets,
 		groupEnemies,
-		groupProjectiles
+		groupProjectiles,
+		groupPortals
 	};
 private:
-	// Count variable (for what purpose?)
-	int count = 0;
 
 	// SDL window for the game
 	SDL_Window* window;

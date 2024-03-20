@@ -11,3 +11,4 @@
 #include "ProjectileComponent.h"
 #include "EnemyComponent.h"
 #include "DummyComponent.h"
+#include "PortalComponent.h"

@@ -48,20 +48,19 @@ public:
     } 
  
     //Method that checks enemies within range and automatically shoots
-    //Needs more work
-    //Issues whem facing multiple enemies
+
     void shoot(Manager& manager)
     {
         //Getting the groupEnemies vector and checking !empty, otherwise - crash
         if (!manager.getGroup(Game::groupEnemies).empty()) {
-            for (auto& e : manager.getGroup(Game::groupEnemies)) {
+            for (auto &e : manager.getGroup(Game::groupEnemies)) {
                 //Measures elapsed time until the required "shootDelayDuration" has passed.
                  //It is here because the turret must reload evem when there aren`t enemies in range
                 auto currentTime = std::chrono::steady_clock::now();
-                std::chrono::duration<double, std::milli> elapsedTime = currentTime - entity->getComponent<TurretComponent>().lastShotTime;
+                std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
 
                 // Check if the enemy is in range
-                if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < entity->getComponent<TurretComponent>().range) {
+                if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < range) {
                     //Calculating horisontal and vertical distances using trigonometry
                     float dxLength = tools::dx(e->getComponent<ColliderComponent>().collider, parent);
                     float dyLength = tools::dy(e->getComponent<ColliderComponent>().collider, parent);
@@ -73,30 +72,30 @@ public:
                     // Calculate the target rotation angle in radians
                     float targetRadians = atan2(dyLength, dxLength);
                     //Converting to degrees
-                    entity->getComponent<TurretComponent>().targetRotation = targetRadians * 180.0f / M_PI;
-                    if (entity->getComponent<TurretComponent>().targetRotation < 0)entity->getComponent<TurretComponent>().targetRotation += 360.0f;
+                   targetRotation = targetRadians * 180.0f / M_PI;
+                   
                     // This is meant to determine whether the enemy is on the left or right side. 
                     //Such an operation would allow to rotate the turret the shortest way possible
-                    entity->getComponent<TurretComponent>().rotationDifference = entity->getComponent<TurretComponent>().targetRotation - entity->getComponent<TurretComponent>().currentRotation;
-                    if (entity->getComponent<TurretComponent>().rotationDifference > 180.0f)
+                    rotationDifference =targetRotation - currentRotation;
+                    if (rotationDifference > 180.0f)
                     {
-                        entity->getComponent<TurretComponent>().rotationDifference -= 360.0f;
+                       rotationDifference -= 360.0f;
                     }
                     else 
-                    if (entity->getComponent<TurretComponent>().rotationDifference < -180.0f)
+                    if (rotationDifference < -180.0f)
                     {
-                        entity->getComponent<TurretComponent>().rotationDifference += 360.0f;
+                     rotationDifference += 360.0f;
                     }
-                    entity->getComponent<TurretComponent>().currentRotation += rotationDifference * entity->getComponent<TurretComponent>().rotationSpeed;
+                   currentRotation += rotationDifference * rotationSpeed;
                     // Set the turret's rotation
-                    entity->getComponent<SpriteComponent>().setRotation(entity->getComponent<TurretComponent>().currentRotation);
+                    entity->getComponent<SpriteComponent>().setRotation(currentRotation);
                     
 
                     // If the required time has passed and the turret is aligned, shoot
-                    if (elapsedTime.count() >= entity->getComponent<TurretComponent>().shootDelayDuration && fabs(entity->getComponent<TurretComponent>().rotationDifference) < 5) {
-                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 350, 3, 20, "assets/button1.png", &manager, *e);
+                    if (elapsedTime.count() >= shootDelayDuration && fabs(rotationDifference) < 10) {
+                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 250, 3, 20, "assets/button1.png", &manager, *e);
                         lastShotTime = std::chrono::steady_clock::now();
-                        entity->getComponent<SpriteComponent>().Play("Shoot", entity->getComponent<TurretComponent>().shootDelayDuration);
+                        entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
                         
                     }
 
@@ -122,9 +121,6 @@ public:
     void update() override {
         //Calling shoot() on a regular basis
         entity->getComponent<TurretComponent>().shoot(entity->getManager());
-
-       
-
     }
 
 };

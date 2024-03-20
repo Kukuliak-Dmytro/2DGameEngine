@@ -22,6 +22,7 @@ public:
 	friend Vector2D& operator*(Vector2D& v1, Vector2D& v2);
 
     Vector2D& operator+=(Vector2D& vec);
+	Vector2D& operator=(Vector2D& vec);
 	Vector2D& operator-=(Vector2D& vec);
 	Vector2D& operator/=(Vector2D& vec);
 	Vector2D& operator*=(Vector2D& vec);

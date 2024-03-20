@@ -12,7 +12,7 @@
 
 // Вказівник на об'єкт класу Map
 Map* map;
-
+Manager manager;
 // Рендерер та обробник подій з початку nullptr
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -35,6 +35,7 @@ auto& tiles(manager.getGroup(Game::groupTilesMap));
 auto& turrets(manager.getGroup(Game::groupTurrets));
 auto& enemies(manager.getGroup(Game::groupEnemies));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
+auto& portals(manager.getGroup(Game::groupPortals));
 
 // Визначення екземпляру MouseControls
 MouseControlls mouse;
@@ -74,36 +75,41 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     map = new Map();
     Map::LoadMap("assets/map.map", 20, 12);
 
-    // Ініціалізація гравця
-    player.addComponent<TransformComponent>(4);
-    player.addComponent<SpriteComponent>("assets/player_anims.png", true);
-    player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
-    player.addGroup(Game::groupTurrets);
 
-    for (int i = 0; i < 10; i++) {
-        auto time1=SDL_GetTicks();
-        EntityManager::CreateEnemy(Vector2D(500, i*100), Vector2D(0, 0.2), "assets/enemy.png", &manager);       
-    }
+    //for (int i = 0; i < 10; i++) {
+       
+     //   EntityManager::CreateEnemy(Vector2D(500, i*100), Vector2D(0, 0.2), "assets/enemy.png", &manager);       
+   // }
     //required!!
-   std::reverse(manager.getGroup(groupEnemies).begin(), manager.getGroup(groupEnemies).end());
+   //std::reverse(manager.getGroup(groupEnemies).begin(), manager.getGroup(groupEnemies).end());
     
 
     AddTurret(8 * 128, 4 * 128);
+    auto& portal(manager.addEntity());
+    portal.addComponent<TransformComponent>(3*128,5*128,128,128);
+    portal.addComponent<SpriteComponent>("assets/portal.png", true);
+    portal.addComponent<PortalComponent>(5,5,manager);
+    portal.addGroup(Game::groupPortals);
 };
 
 // Функція обробки подій SDL
 void Game::handleEvents() {
     SDL_PollEvent(&event);
     switch (event.type) {
-    case SDL_QUIT:
-        isRunning = false;
+      case SDL_KEYDOWN:
+        if (event.key.keysym.sym == SDLK_SPACE) {
+        }
+        else 
+        if (event.key.keysym.sym == SDLK_ESCAPE) {   
+            isRunning = false;
+        }
         break;
-
+       
     default:
         break;
     }
-};
+}
+
 
 // Функція оновлення логіки гри
 void Game::update()
@@ -122,6 +128,7 @@ void Game::render() {
     for (auto& e : enemies) { e->draw(); }
     for (auto& p : projectiles) { p->draw(); }
     for (auto& t : turrets) { t->draw(); }
+    for (auto& p : portals) { p->draw(); p->getComponent<SpriteComponent>().Play("Portal", 400); }
   
    
     mouse.Hover();

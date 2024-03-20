@@ -74,6 +74,15 @@ Vector2D& Vector2D::Multiply(const Vector2D& vec)
  {
 	 return this->Add(vec);
  }
+ Vector2D& Vector2D::operator=(Vector2D& vec)
+ {
+	 if (this != &vec) {
+		 this->x = vec.x;
+		 this->y = vec.y;
+	 }
+	 // Return a reference to the modified left-hand side operand
+	 return *this;
+ }
 
  Vector2D& Vector2D::operator-=(Vector2D& vec)
  {

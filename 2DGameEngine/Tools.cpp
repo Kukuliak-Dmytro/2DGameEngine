@@ -3,11 +3,13 @@
 #include <cmath> // Include <cmath> for mathematical functions
 
  float tools::dx(const SDL_Rect& rect1, const SDL_Rect& rect2) {
-    return static_cast<float>(rect1.x + (rect1.w / 2)) - static_cast<float>(rect2.x + (rect2.w / 2));
+     if (&rect2 == nullptr) { return 0.0f; }
+     return(rect1.x + (rect1.w / static_cast<float>(2))) - (rect2.x + (rect2.w / static_cast<float>(2)));
 }
 
 float tools::dy(const SDL_Rect& rect1, const SDL_Rect& rect2) {
-    return static_cast<float>(rect1.y + (rect1.h / 2)) - static_cast<float>(rect2.y + (rect2.h / 2));
+    if (&rect2 == nullptr) { return 0.0f; }
+    return (rect1.y + (rect1.h / static_cast<float>(2))) - (rect2.y + (rect2.h / static_cast<float>(2)));  
 }
 float tools::distance(SDL_Rect rect1, SDL_Rect rect2)
 {

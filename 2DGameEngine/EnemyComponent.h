@@ -72,7 +72,7 @@ public:
 	{
 		//Destroying enemy if health reached zero
 		if (health <= 0) {
-			std::cout << "Health reached zero";
+			//std::cout << "Health reached zero";
 			entity->destroy();
 		}
 		//Looping checking collisions
