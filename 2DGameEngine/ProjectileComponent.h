@@ -51,6 +51,7 @@ public:
 		}
 		else
 			entity->destroy();
+		
 			
 	}
 	//Setters and getters to access private data

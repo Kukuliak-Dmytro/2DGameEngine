@@ -28,6 +28,10 @@ private:
     // 1000 milliseconds = 1 second
     const int range = 700;
     const int shootDelayDuration = 450; 
+    const int projectileRange = 250;
+    const int projectileSpeed= 3;
+    const int projectileDamage= 20;
+
     //Chrono to measure time between shots
     std::chrono::steady_clock::time_point lastShotTime;
 
@@ -93,7 +97,7 @@ public:
 
                     // If the required time has passed and the turret is aligned, shoot
                     if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
-                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 250, 3, 20, "assets/enemy1.png", &manager, *e);
+                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, "assets/projectile1.png", &manager, *e);
                         lastShotTime = std::chrono::steady_clock::now();
                         entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
                         

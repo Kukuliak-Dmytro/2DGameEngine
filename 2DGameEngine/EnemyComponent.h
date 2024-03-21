@@ -70,7 +70,7 @@ public:
 			for (auto b : manager.getGroup(Game::groupBases)) {
 				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &b->getComponent<ColliderComponent>().collider))
 				{
-					std::cout << "Base penetrated!" << std::endl;
+					//std::cout << "Base penetrated!" << std::endl;
 					e->destroy();
 				}
 			}
