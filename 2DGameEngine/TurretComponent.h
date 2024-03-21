@@ -92,8 +92,8 @@ public:
                     
 
                     // If the required time has passed and the turret is aligned, shoot
-                    if (elapsedTime.count() >= shootDelayDuration && fabs(rotationDifference) < 10) {
-                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 250, 3, 20, "assets/button1.png", &manager, *e);
+                    if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
+                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, 250, 3, 20, "assets/enemy1.png", &manager, *e);
                         lastShotTime = std::chrono::steady_clock::now();
                         entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
                         

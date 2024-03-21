@@ -36,6 +36,7 @@ auto& turrets(manager.getGroup(Game::groupTurrets));
 auto& enemies(manager.getGroup(Game::groupEnemies));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& portals(manager.getGroup(Game::groupPortals));
+auto& bases(manager.getGroup(Game::groupBases));
 
 // Визначення екземпляру MouseControls
 MouseControlls mouse;
@@ -74,22 +75,19 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     if (TTF_Init() == -1) { std::cout << "Помилка ініціалізації SDL_ttf"; } // Error initializing SDL_ttf
     map = new Map();
     Map::LoadMap("assets/map.map", 20, 12);
+ 
 
-
-    //for (int i = 0; i < 10; i++) {
-       
-     //   EntityManager::CreateEnemy(Vector2D(500, i*100), Vector2D(0, 0.2), "assets/enemy.png", &manager);       
-   // }
-    //required!!
-   //std::reverse(manager.getGroup(groupEnemies).begin(), manager.getGroup(groupEnemies).end());
-    
-
-    AddTurret(8 * 128, 4 * 128);
     auto& portal(manager.addEntity());
     portal.addComponent<TransformComponent>(3*128,5*128,128,128);
     portal.addComponent<SpriteComponent>("assets/portal.png", true);
     portal.addComponent<PortalComponent>(5,5,manager);
     portal.addGroup(Game::groupPortals);
+
+    auto& base(manager.addEntity());
+    base.addComponent<TransformComponent>(12 * 128, 5 * 128, 128, 128);
+    base.addComponent<ColliderComponent>("base");
+    base.addComponent<SpriteComponent>("assets/base.png", false);
+    base.addGroup(Game::groupBases);
 };
 
 // Функція обробки подій SDL
@@ -126,9 +124,10 @@ void Game::render() {
     for (auto& t : tiles) { t->draw(); }
     for (auto& t : tilesTrue) { t->draw(); }
     for (auto& e : enemies) { e->draw(); }
-    for (auto& p : projectiles) { p->draw(); }
+    for (auto& p : projectiles) { p->draw();}
     for (auto& t : turrets) { t->draw(); }
-    for (auto& p : portals) { p->draw(); p->getComponent<SpriteComponent>().Play("Portal", 400); }
+    for (auto& p : portals) { p->draw(); }
+    for (auto& b : bases) { b->draw(); }
   
    
     mouse.Hover();
@@ -160,14 +159,14 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos, bool isInteractive)
 }
 
 // Функція для додавання вежі до гри
-void Game::AddTurret(int xpos, int ypos)
+void Game::AddTurret(int xpos, int ypos, const char* path1, const char* path2)
 {
+    for (auto& t : manager.getGroup(Game::groupTurrets)) { if (t->getComponent<TransformComponent>().position.x == xpos && t->getComponent<TransformComponent>().position.y == ypos) t->destroy(); }
     auto& turret(manager.addEntity());
     turret.addComponent<TransformComponent>(xpos, ypos, 128, 128, 1);
-    turret.addComponent<dummy>("assets/turret1_base.png");
-    turret.addComponent<SpriteComponent>("assets/turret1_anims.png", true);
+    turret.addComponent<dummy>(path1);
+    turret.addComponent<SpriteComponent>(path2, true);
     turret.addComponent<TurretComponent>(xpos, ypos);
-    for (auto& t : tilesTrue) { if (t->getComponent<TileComponent>().position.x == xpos && t->getComponent<TileComponent>().position.y == ypos)t->removeComponent<BuildComponent>(); }
     turret.addGroup(Game::groupTurrets);
-    std::cout << "Turret built"; // Turret built
+   // std::cout << "Turret built"; 
 }

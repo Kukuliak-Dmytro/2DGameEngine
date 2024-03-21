@@ -53,7 +53,7 @@ public:
 	}
 
 	
-	~SpriteComponent() 
+	virtual ~SpriteComponent() 
 	{
 		SDL_DestroyTexture(texture);
 	}

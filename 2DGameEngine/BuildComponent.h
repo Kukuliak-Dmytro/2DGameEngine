@@ -87,10 +87,11 @@ public:
             switch (Game::event.button.button)
             {
             case SDL_BUTTON_LEFT:
-                if (SDL_PointInRect(&mousePoint, &dest1)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
-                if (SDL_PointInRect(&mousePoint, &dest2)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
-                if (SDL_PointInRect(&mousePoint, &dest3)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
-                if (SDL_PointInRect(&mousePoint, &dest4)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y); }
+    
+                if (SDL_PointInRect(&mousePoint, &dest1)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y,"assets/turret1_base.png","assets/turret1_anims.png"); }
+                if (SDL_PointInRect(&mousePoint, &dest2)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y, "assets/turret2_base.png", "assets/turret2_anims.png"); }
+                if (SDL_PointInRect(&mousePoint, &dest3)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y, "assets/turret3_base.png", "assets/turret3_anims.png"); }
+                if (SDL_PointInRect(&mousePoint, &dest4)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y,"assets/turret4_base.png","assets/turret4_anims.png"); }
                 break;
             }
         }

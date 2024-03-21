@@ -1,14 +1,14 @@
 #pragma once
 #include "Components.h"
 #include "Vector2D.h"
+#include "Game.h"
 
 class TransformComponent : public Component {
 
-public:
-	SDL_Rect startPosition;
+public:	
 	Vector2D position;
 	Vector2D velocity;
-	SDL_Point center;
+
 
 	int height = 32;
 	int width = 32;
@@ -31,8 +31,7 @@ public:
 	{
 		position.x = x;
 		position.y = y;
-		startPosition.x = x;
-		startPosition.y = y;
+
 		
 		
 	}
@@ -40,8 +39,7 @@ public:
 	{
 		position.x = x;
 		position.y = y;
-		startPosition.x = x;
-		startPosition.y = y;
+
 		height = h;
 		width = w;
 
@@ -51,8 +49,7 @@ public:
 	{
 		position.x = x;
 		position.y = y;
-		startPosition.x = x;
-		startPosition.y = y;
+	
 		height = h;
 		width = w;
 		this->speed = speed;
@@ -66,8 +63,7 @@ public:
 	{
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
-		center.x = position.x + width ;
-		center.y = position.y + height;
+		
 	}
 	
 };

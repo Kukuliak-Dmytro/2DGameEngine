@@ -37,7 +37,7 @@ public:
 	static void AddTile(int srcX, int srcY, int xpos, int ypos, bool isInteractive);
 
 	// Static function to add a turret to the game
-	static void AddTurret(int xpos, int ypos);
+	static void AddTurret(int xpos, int ypos, const char* path1, const char* path2);
 
 	// Static renderer for the game
 	static SDL_Renderer* renderer;
@@ -59,7 +59,8 @@ public:
 		groupTurrets,
 		groupEnemies,
 		groupProjectiles,
-		groupPortals
+		groupPortals,
+		groupBases
 	};
 private:
 

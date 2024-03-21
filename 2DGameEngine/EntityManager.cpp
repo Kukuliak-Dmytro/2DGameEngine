@@ -12,12 +12,12 @@ EntityManager::~EntityManager()
 void EntityManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, int dmg, const char *id, Manager* man, Entity& enemy)
 {
 	auto& projectile(man->addEntity());
-	projectile.addComponent<TransformComponent>(pos.x, pos.y, 16, 16, speed);
+	projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, speed);
 	projectile.addComponent<SpriteComponent>(id, false);
 	projectile.addComponent<ProjectileComponent>(range, speed, vel, dmg, enemy);
 	projectile.addComponent<ColliderComponent>("enemy");
 	projectile.addGroup(Game::groupProjectiles);
-	std::cout << "Projectile created";
+//	std::cout << "Projectile created";
 }
 
  void EntityManager::CreateEnemy(Vector2D pos, Vector2D vel, const char* id, Manager* man)
@@ -28,6 +28,6 @@ void EntityManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, int 
 	enemy.addComponent<EnemyComponent>( 100, vel);
 	enemy.addComponent<ColliderComponent>("projectile");
 	enemy.addGroup(Game::groupEnemies);
-	std::cout << "Enemy created";
+//	std::cout << "Enemy created";
 }
 

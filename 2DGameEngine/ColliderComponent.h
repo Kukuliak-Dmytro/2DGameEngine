@@ -20,6 +20,13 @@ public:
         collider.y = y;
         collider.w = collider.h = 32;
     }
+    ColliderComponent(std::string t, int x, int y, int w, int h) {
+        tag = t;
+        collider.x = x;
+        collider.y = y;
+        collider.w = w;
+        collider.h = h;
+    }
 
     void init() override {
         if (!entity->hasComponent<TransformComponent>()) {

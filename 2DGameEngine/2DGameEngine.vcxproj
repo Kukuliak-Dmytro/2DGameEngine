@@ -135,7 +135,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game.cpp" />
@@ -150,7 +149,6 @@
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />

@@ -17,28 +17,22 @@ private:
 	PortalComponent(int w, int e, Manager& man) :waves(w), nEnemies(e), managerial(man) { };
       
     void update() override {
+        entity->getComponent<SpriteComponent>().Play("Portal", 400);
         srand(time(NULL)); 
         spawnpoint.x = entity->getComponent<SpriteComponent>().getRect().x + Game::camera.x+rand() %  50 + 1;
-        spawnpoint.y = entity->getComponent<SpriteComponent>().getRect().y + Game::camera.y+rand() % 50 + 1;
+        spawnpoint.y = entity->getComponent<SpriteComponent>().getRect().y + Game::camera.y+rand() % 80 + 1;
         path.x = 0.5;
         path.y = 0;
         summonWave();
     }
-    void summonWave() {     
-
-
-                        auto currentTime = std::chrono::steady_clock::now();
-                        std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
-                        if (elapsedTime.count() >= 1000) {
-                            EntityManager::CreateEnemy(spawnpoint, path, "assets/enemy.png", &managerial);
-                            lastShotTime = std::chrono::steady_clock::now();
+    void summonWave() {   
+      auto currentTime = std::chrono::steady_clock::now();
+       std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
+       if (elapsedTime.count() >= 1000) {
+            EntityManager::CreateEnemy(spawnpoint, path, "assets/enemy1.png", &managerial);
+            lastShotTime = std::chrono::steady_clock::now();
                          
-                        }
-
-               
-                
-               
-            
+       }    
         
     }
 

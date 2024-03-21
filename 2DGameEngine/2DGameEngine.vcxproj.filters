@@ -33,9 +33,6 @@
     <ClCompile Include="Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ECS.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
@@ -76,9 +73,6 @@
     </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Source Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileComponent.h">
       <Filter>Source Files\ECS</Filter>

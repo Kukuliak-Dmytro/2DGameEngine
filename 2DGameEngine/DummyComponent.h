@@ -22,7 +22,7 @@ public:
 		setTex(path);
 	}
 
-	~dummy()
+	~dummy() override
 	{
 		SDL_DestroyTexture(texture);
 	}

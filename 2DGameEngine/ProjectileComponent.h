@@ -14,11 +14,15 @@ private:
 	int range = 0;
 	int speed = 0;
 	int distance = 0;
+	float dxLength;
+	float dyLength;
+	Vector2D direction;
 	//Projectile vector that holds the speed and direction
 	Vector2D velocit;
 	//A reference to the enemy at which the projectile was fired
 	Entity& target;
 public:
+
 	ProjectileComponent(int rng, int sp, Vector2D vel, int dmg, Entity& enemy) : range(rng), speed(sp), velocit(vel), damage(dmg), target(enemy)
 	{}
 	~ProjectileComponent() = default;
@@ -33,20 +37,21 @@ public:
 
 	void update() override
 	{
+		entity->getComponent<SpriteComponent>().setRotation(distance);
 		//each projectile has a range
 		distance += speed;
 		//and if the distance travelled is greater than range the projectile , it disappears
-		if (distance > range)
+		
+		if (target.isActive() == true)
+			setAim();
+		else if (distance > range)
 		{
 			//std::cout << "Out of Range" << std::endl;
 			entity->destroy();
 		}
-
-		
-		setAim();
-		
-
-	
+		else
+			entity->destroy();
+			
 	}
 	//Setters and getters to access private data
 	int getDmg() {return damage;}
@@ -59,23 +64,24 @@ public:
 			//If the targeted enemy is still alive
 		
 			//Let the projectile fly some distance without chasing the enemy to look more natural
-		if (target.isActive() == true) {
+	
 			if (distance > 50) {
 				//Calculate the vertical and horizontal distances
-				float dxLength = tools::dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
-				float dyLength = tools::dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
+				dxLength = tools::dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
+				dyLength = tools::dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
 				//Define a vector with parameters of direction
-				Vector2D direction(-dxLength, -dyLength);
+				direction.x = -dxLength;
+				direction.y = -dyLength;
+
 				//Call a normalize function that would set the modulus of vector(length a.k.a. speed in our case) to "speed" variable
 				direction.normalize(speed);
 				//And change the direction of projectile to the vector pointing at the enemy
 				transform->velocity = direction;
 			}
-		}
-		else
-			if (tools::distance(entity->getComponent<ColliderComponent>().collider, entity->getComponent<TransformComponent>().startPosition) > 700) {
-				entity->destroy();
-		}
+		
+		
+			
+	
 		
 				
 	}

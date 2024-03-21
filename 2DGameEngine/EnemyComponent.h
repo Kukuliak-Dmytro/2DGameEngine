@@ -51,8 +51,9 @@ public:
 
 	//Function that checks each projectile against each enemy
 	void checkCollision(Manager& manager) {
-		for (auto& p : manager.getGroup(Game::groupProjectiles)) {
-			for (auto& e : manager.getGroup(Game::groupEnemies)) {
+		for (auto& e : manager.getGroup(Game::groupEnemies)) {
+			for (auto& p : manager.getGroup(Game::groupProjectiles)) {
+			
 				//SDL_HasIntersection is a bulit-in function used for defining collision between two "SDL_Rect" objects
 				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)) {
 					//Subtract the damage inflicted
@@ -66,14 +67,24 @@ public:
 					//std::cout << health << std::endl;
 				}
 			}
+			for (auto b : manager.getGroup(Game::groupBases)) {
+				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &b->getComponent<ColliderComponent>().collider))
+				{
+					std::cout << "Base penetrated!" << std::endl;
+					e->destroy();
+				}
+			}
 		}
 	}
 	void update() override
+
 	{
+		if (entity->getComponent<TransformComponent>().position.x > 1920 + Game::camera.w || entity->getComponent<TransformComponent>().position.x < 0 - Game::camera.w || entity->getComponent<TransformComponent>().position.y > 1080 + Game::camera.h || entity->getComponent<TransformComponent>().position.y <0 - Game::camera.h)entity->destroy();
 		//Destroying enemy if health reached zero
 		if (health <= 0) {
 			//std::cout << "Health reached zero";
 			entity->destroy();
+			
 		}
 		//Looping checking collisions
 		entity->getComponent<EnemyComponent>().checkCollision(entity->getManager());
