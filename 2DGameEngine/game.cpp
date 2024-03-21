@@ -159,14 +159,14 @@ void Game::AddTile(int srcX, int srcY, int xpos, int ypos, bool isInteractive)
 }
 
 // Функція для додавання вежі до гри
-void Game::AddTurret(int xpos, int ypos, const char* path1, const char* path2)
+void Game::AddTurret(int xpos, int ypos, const char* path1, const char* path2, int type)
 {
     for (auto& t : manager.getGroup(Game::groupTurrets)) { if (t->getComponent<TransformComponent>().position.x == xpos && t->getComponent<TransformComponent>().position.y == ypos) t->destroy(); }
     auto& turret(manager.addEntity());
     turret.addComponent<TransformComponent>(xpos, ypos, 128, 128, 1);
     turret.addComponent<dummy>(path1);
     turret.addComponent<SpriteComponent>(path2, true);
-    turret.addComponent<TurretComponent>(xpos, ypos);
+    turret.addComponent<TurretComponent>(xpos, ypos,type);
     turret.addGroup(Game::groupTurrets);
    // std::cout << "Turret built"; 
 }

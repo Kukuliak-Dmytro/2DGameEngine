@@ -31,6 +31,7 @@ private:
     const int projectileRange = 250;
     const int projectileSpeed= 3;
     const int projectileDamage= 20;
+    int turretColor = 1;
 
     //Chrono to measure time between shots
     std::chrono::steady_clock::time_point lastShotTime;
@@ -39,7 +40,7 @@ public:
     TurretComponent() {
 
     }
-    TurretComponent(int x, int y)
+    TurretComponent(int x, int y, int color)
     {
      
         parent.x = x;
@@ -47,7 +48,7 @@ public:
         parent.h = parent.w = 128;
         A0.x = x + 128 / 2;
         A0.y = y + 128 / 2;
-       
+        turretColor = color;
         
     } 
  
@@ -57,62 +58,66 @@ public:
     {
         //Getting the groupEnemies vector and checking !empty, otherwise - crash
         if (!manager.getGroup(Game::groupEnemies).empty()) {
-            for (auto &e : manager.getGroup(Game::groupEnemies)) {
-                //Measures elapsed time until the required "shootDelayDuration" has passed.
-                 //It is here because the turret must reload evem when there aren`t enemies in range
-                auto currentTime = std::chrono::steady_clock::now();
-                std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
+            for (auto& e : manager.getGroup(Game::groupEnemies)) {
+                if (e->getComponent<EnemyComponent>().enemyColor == turretColor) {
+                    //Measures elapsed time until the required "shootDelayDuration" has passed.
+                     //It is here because the turret must reload evem when there aren`t enemies in range
+                    auto currentTime = std::chrono::steady_clock::now();
+                    std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
 
-                // Check if the enemy is in range
-                if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < range) {
-                    //Calculating horisontal and vertical distances using trigonometry
-                    float dxLength = tools::dx(e->getComponent<ColliderComponent>().collider, parent);
-                    float dyLength = tools::dy(e->getComponent<ColliderComponent>().collider, parent);
-                    //and setting the direction of the vector according to those values
-                    Vector2D direction(dxLength, dyLength);
-                    //Normalizing the vector = keeps the same direction, but its modulus(length) is set to 1
-                    direction.normalize();
+                    // Check if the enemy is in range
+                    if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < range) {
+                        //Calculating horisontal and vertical distances using trigonometry
+                        float dxLength = tools::dx(e->getComponent<ColliderComponent>().collider, parent);
+                        float dyLength = tools::dy(e->getComponent<ColliderComponent>().collider, parent);
+                        //and setting the direction of the vector according to those values
+                        Vector2D direction(dxLength, dyLength);
+                        //Normalizing the vector = keeps the same direction, but its modulus(length) is set to 1
+                        direction.normalize();
 
-                    // Calculate the target rotation angle in radians
-                    float targetRadians = atan2(dyLength, dxLength);
-                    //Converting to degrees
-                   targetRotation = targetRadians * 180.0f / M_PI;
-                   
-                    // This is meant to determine whether the enemy is on the left or right side. 
-                    //Such an operation would allow to rotate the turret the shortest way possible
-                    rotationDifference =targetRotation - currentRotation;
-                    if (rotationDifference > 180.0f)
-                    {
-                       rotationDifference -= 360.0f;
+                        // Calculate the target rotation angle in radians
+                        float targetRadians = atan2(dyLength, dxLength);
+                        //Converting to degrees
+                        targetRotation = targetRadians * 180.0f / M_PI;
+
+                        // This is meant to determine whether the enemy is on the left or right side. 
+                        //Such an operation would allow to rotate the turret the shortest way possible
+                        rotationDifference = targetRotation - currentRotation;
+                        if (rotationDifference > 180.0f)
+                        {
+                            rotationDifference -= 360.0f;
+                        }
+                        else
+                            if (rotationDifference < -180.0f)
+                            {
+                                rotationDifference += 360.0f;
+                            }
+                        currentRotation += rotationDifference * rotationSpeed;
+                        // Set the turret's rotation
+                        entity->getComponent<SpriteComponent>().setRotation(currentRotation);
+
+
+                        // If the required time has passed and the turret is aligned, shoot
+                        if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
+                            std::string enemyFileName = "assets/projectile" + std::to_string(turretColor) + ".png";
+                            EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
+                            lastShotTime = std::chrono::steady_clock::now();
+                            entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
+
+                        }
+
+                        //This is required so that the turret will only shoot the first enemy in range
+                        //If the enemy is inside the range, it will shoot it, break the cycle, start the cycle again and shoot the first enemy
+                        //And if the enemy is outside of range, the turret simply won`t shoot, thus moving onto the next enemy
+                        break;
                     }
-                    else 
-                    if (rotationDifference < -180.0f)
-                    {
-                     rotationDifference += 360.0f;
-                    }
-                   currentRotation += rotationDifference * rotationSpeed;
-                    // Set the turret's rotation
-                    entity->getComponent<SpriteComponent>().setRotation(currentRotation);
-                    
-
-                    // If the required time has passed and the turret is aligned, shoot
-                    if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
-                        EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, "assets/projectile1.png", &manager, *e);
-                        lastShotTime = std::chrono::steady_clock::now();
-                        entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
-                        
-                    }
-
-                    //This is required so that the turret will only shoot the first enemy in range
-                    //If the enemy is inside the range, it will shoot it, break the cycle, start the cycle again and shoot the first enemy
-                    //And if the enemy is outside of range, the turret simply won`t shoot, thus moving onto the next enemy
-                    break;
                 }
-                else 
-                {
-                    // If the enemy is not in range, set the turret to idle
-                    entity->getComponent<SpriteComponent>().Play("Idle");
-                }
+                    else
+                    {
+                        // If the enemy is not in range, set the turret to idle
+                        entity->getComponent<SpriteComponent>().Play("Idle");
+                    }
+                
             }
         }
         else {

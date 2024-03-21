@@ -22,8 +22,8 @@ private:
 	//A reference to the enemy at which the projectile was fired
 	Entity& target;
 public:
-
-	ProjectileComponent(int rng, int sp, Vector2D vel, int dmg, Entity& enemy) : range(rng), speed(sp), velocit(vel), damage(dmg), target(enemy)
+	int projectileColor = 1;
+	ProjectileComponent(int rng, int sp, Vector2D vel, int dmg, Entity& enemy, int color) : range(rng), speed(sp), velocit(vel), damage(dmg), target(enemy), projectileColor(color)
 	{}
 	~ProjectileComponent() = default;
 

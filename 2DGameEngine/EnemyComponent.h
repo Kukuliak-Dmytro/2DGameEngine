@@ -16,10 +16,12 @@ private:
 	int coins;
 	SDL_Rect src;
 	SDL_Rect dest;
+	
 
 public:
+	int enemyColor = 1;
 	EnemyComponent(){}
-	EnemyComponent(int hp, Vector2D vel) :Direction(vel),health(hp) 
+	EnemyComponent(int hp, Vector2D vel, int color) :Direction(vel),health(hp), enemyColor(color)
 	{
 	
 	}
@@ -55,7 +57,7 @@ public:
 			for (auto& p : manager.getGroup(Game::groupProjectiles)) {
 			
 				//SDL_HasIntersection is a bulit-in function used for defining collision between two "SDL_Rect" objects
-				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)) {
+				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)==true && p->getComponent<ProjectileComponent>().projectileColor == e->getComponent<EnemyComponent>().enemyColor) {
 					//Subtract the damage inflicted
 					e->getComponent<EnemyComponent>().health = e->getComponent<EnemyComponent>().health - p->getComponent<ProjectileComponent>().getDmg();
 					//It is required so that the projectile would only hit ONE enemy and disappear, otherwise it would hit the closese ones as well
