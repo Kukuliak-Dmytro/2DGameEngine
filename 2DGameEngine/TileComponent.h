@@ -19,7 +19,7 @@ public:
 
 	TileComponent(int srcX, int srcY, int xpos, int ypos, const char* path)
 	{
-		texture = TextureManager::LoadTexture(path);
+		texture = LoadTexture(path);
 
 		position.x = xpos;
 		position.y = ypos;
@@ -40,7 +40,7 @@ public:
 	}
 	void draw()override
 	{
-		TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE,0);
+	Draw(texture, srcRect, destRect, SDL_FLIP_NONE,0);
 	
 	}
 

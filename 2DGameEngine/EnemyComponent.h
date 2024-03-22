@@ -1,5 +1,6 @@
 #pragma once
 #include "Components.h"
+#include "ProjectileComponent.h"
 
 
 
@@ -39,14 +40,14 @@ public:
 		dest.y = transform->position.y - 10-Game::camera.y;
 		dest.w = 32;
 		dest.h = 4;
-		TextureManager::Draw(TextureManager::LoadTexture("assets/health_bar_back.png"), src, dest, SDL_FLIP_NONE, 0);		
+		Draw(LoadTexture("assets/health_bar_back.png"), src, dest, SDL_FLIP_NONE, 0);		
 		
 		src.x=0; src.y = (health/10)-1; src.h = 1; src.w = health/10;
 		dest.x = transform->position.x - Game::camera.x+2;
 		dest.y = transform->position.y - 10 - Game::camera.y+1;
 		dest.w = 28* src.w/10;
 		dest.h = 2;
-		TextureManager::Draw(TextureManager::LoadTexture("assets/health_bar.png"), src, dest, SDL_FLIP_NONE, 0);
+		Draw(LoadTexture("assets/health_bar.png"), src, dest, SDL_FLIP_NONE, 0);
 	}
 
 	//Function that checks each projectile against each enemy

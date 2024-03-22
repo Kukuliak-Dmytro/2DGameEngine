@@ -1,13 +1,26 @@
 #pragma once
 
 #include "Components.h" 
-#include "TextureManager.h"
-#include "Animation.h"
 #include <map>
 #include <chrono>
 
+struct Animation
+{
+	int index;
+	int frames;
+
+	Animation() {}
+	Animation(int i, int f)
+	{
+		index = i;
+		frames = f;
+
+	}
+
+};
 class SpriteComponent : public Component{
 private:
+
 	TransformComponent *transform;
 	SDL_Texture* texture;
 	SDL_Rect srcRect, destRect;
@@ -19,6 +32,7 @@ private:
 	//Flag that switches between animations
 	//This is a bad approach, since I need to add an array and every time to skip through each frame.
 	//But I have only 2 frames due to the simplicity of the game. So, this slack would pass
+
 
 	std::chrono::steady_clock::time_point lastShotTime;
 
@@ -59,7 +73,7 @@ public:
 
 	void setTex(const char* path)
 	{
-		texture = TextureManager::LoadTexture(path);
+		texture = LoadTexture(path);
 	}
 	void init() override 
 	{
@@ -103,7 +117,7 @@ public:
 
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect,spriteFlip, rotation);
+	Draw(texture, srcRect, destRect,spriteFlip, rotation);
 		
 	}
 

@@ -34,7 +34,7 @@ public:
             src[i].w = src[i].h = 64;
             dest[i].w = dest[i].h = 64;
             std::string fileName = "assets/button" + std::to_string(i+1) + ".png";
-            texture[i] = TextureManager::LoadTexture(fileName.c_str());
+            texture[i] = LoadTexture(fileName.c_str());
         }
     }
    
@@ -78,7 +78,7 @@ public:
         if (drawbutton == true)
         {
             for (int i = 0; i < 4; i++) {
-                TextureManager::Draw(texture[i], src[i], dest[i], SDL_FLIP_NONE, 0);
+                Draw(texture[i], src[i], dest[i], SDL_FLIP_NONE, 0);
 
             }
         }

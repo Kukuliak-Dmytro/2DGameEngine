@@ -1,8 +1,36 @@
 
 #include <cmath>
 #include <fstream>
-#include "Functions.h"
 #include "Components.h"
+
+
+SDL_Texture* LoadTexture(const char* texture) {
+	SDL_Surface* tempSurface = IMG_Load(texture);
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+	SDL_FreeSurface(tempSurface);
+
+	return tex;
+
+
+
+}
+SDL_Texture* LoadFont(std::string fontPath, int fontSize, const char* fontText) {
+	TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
+	SDL_Color color = { 255,255,255,255 };
+	SDL_Surface* tempSurface = TTF_RenderText_Blended(font, fontText, color);
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+	SDL_FreeSurface(tempSurface);
+
+	return tex;
+
+
+
+}
+void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip, int angle)
+{
+
+	SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, angle, NULL, flip);
+}
 
 void LoadMap(std::string path, int sizeX, int sizeY)
 {
@@ -47,3 +75,40 @@ float distance(SDL_Rect rect1, SDL_Rect rect2)
     delta = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
     return delta;
 }
+
+void CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, int dmg, const char* id, Manager* man, Entity& enemy, int type)
+{
+	//Creating using the manager
+	auto& projectile(man->addEntity());
+	//Passing the position size, and speed
+	projectile.addComponent<TransformComponent>(pos.x, pos.y, 16, 16, speed);
+	//Passing the path and whether is animated
+	projectile.addComponent<SpriteComponent>(id, false);
+	//Passing range, speed. velocity, damage, target, ane the color of the projectile
+	projectile.addComponent<ProjectileComponent>(range, speed, vel, dmg, enemy, type);
+	//Creating the collider
+	projectile.addComponent<ColliderComponent>();
+	//Adding to the group
+	projectile.addGroup(Game::groupProjectiles);
+
+}
+
+//Creating an enemy
+void CreateEnemy(Vector2D pos, Vector2D vel, int speed, int health, const char* id, Manager* man, int type)
+{
+	//Creating using the manager
+	auto& enemy(man->addEntity());
+	//Passing the position, size and speed
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, speed);
+	//Passing the path and whether is animated
+	enemy.addComponent<SpriteComponent>(id, false);
+	//Passing the health, velocity, and color of the enemy
+	enemy.addComponent<EnemyComponent>(health, vel, type);
+	//Adding the collider
+	//It is initialized in its init() function
+	enemy.addComponent<ColliderComponent>();
+	//Adding to the group
+	enemy.addGroup(Game::groupEnemies);
+
+}
+

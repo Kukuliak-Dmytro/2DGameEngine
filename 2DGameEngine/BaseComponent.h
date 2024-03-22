@@ -42,6 +42,6 @@ public:
 		dest.x =1920-dest.w;
 		dest.y =0;
 		//Rendering
-		TextureManager::Draw(TextureManager::LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+		Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
 	}
 };

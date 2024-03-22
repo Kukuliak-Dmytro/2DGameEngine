@@ -1,10 +1,9 @@
 
 #include "Game.h"
-#include "TextureManager.h"
 #include "Components.h"
 #include "MouseControlls.h"
 #include "SDL_ttf.h"
-#include "EntityManager.h"
+
 
 Manager manager;
 // Рендерер та обробник подій з початку nullptr

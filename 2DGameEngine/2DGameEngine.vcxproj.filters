@@ -24,17 +24,11 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ECS.cpp">
       <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Functions.cpp">
       <Filter>Source Files</Filter>
@@ -62,16 +56,10 @@
     <ClInclude Include="Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardController.h">
-      <Filter>Source Files\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="TileComponent.h">
-      <Filter>Source Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
     <ClInclude Include="MouseControlls.h">
@@ -85,9 +73,6 @@
     </ClInclude>
     <ClInclude Include="ProjectileComponent.h">
       <Filter>Source Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyComponent.h">
       <Filter>Source Files\ECS</Filter>

@@ -1,7 +1,5 @@
 #pragma once
 #include "Components.h"
-
-#include "TextureManager.h"
 #include <sstream>
 #include "Game.h"
 
@@ -72,8 +70,8 @@ public:
 		dest.y = position.y * 128 - Game::camera.y;
 
 		// Loading the texture into the variable
-		hoverTexture = TextureManager::LoadTexture("assets/hover.png");
+		hoverTexture = LoadTexture("assets/hover.png");
 		// Drawing the hover square
-		TextureManager::Draw(hoverTexture, src, dest, SDL_FLIP_NONE, 0);
+		Draw(hoverTexture, src, dest, SDL_FLIP_NONE, 0);
 	}
 };

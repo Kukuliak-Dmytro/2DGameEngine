@@ -37,7 +37,7 @@ private:
        std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
        if (elapsedTime.count() >= 1000) {
            std::string enemyFileName = "assets/enemy" + std::to_string(enemytype) + ".png";
-            EntityManager::CreateEnemy(spawnpoint, path,enemySpeed,enemyHealth, enemyFileName.c_str(), &managerial,enemytype);
+            CreateEnemy(spawnpoint, path,enemySpeed,enemyHealth, enemyFileName.c_str(), &managerial,enemytype);
             lastShotTime = std::chrono::steady_clock::now();
             Game::SpawnedEnemies++;
                          
@@ -55,7 +55,7 @@ private:
         dest.y = 0;
 
 
-        TextureManager::Draw(TextureManager::LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+       Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
 
         file = "Enemies defeated " + std::to_string(Game::DefeatedEnemies);
          a = file.c_str();
@@ -67,7 +67,7 @@ private:
         dest.y = 64;
 
 
-        TextureManager::Draw(TextureManager::LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+       Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
     }
 
 	

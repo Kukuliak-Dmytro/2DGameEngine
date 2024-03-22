@@ -2,9 +2,11 @@
 
 #include <math.h>
 #include <chrono>
-#include "ProjectileComponent.h"
+#include "Game.h"
 #include "EnemyComponent.h"
-#include "EntityManager.h"
+#include"ProjectileComponent.h"
+
+
 
 
 
@@ -45,7 +47,7 @@ public:
     TurretComponent(int x, int y, int color, const char* path)
     {
         //For rendering the base of the turret
-        texture = TextureManager::LoadTexture(path);
+        texture = LoadTexture(path);
         srcRect.x = srcRect.y = 0;
         srcRect.w = 128;
         srcRect.h = 128;
@@ -106,7 +108,7 @@ public:
                         // If the required time has passed and the turret is aligned, shoot
                         if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
                             std::string enemyFileName = "assets/projectile" + std::to_string(turretColor) + ".png";
-                            EntityManager::CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
+                            CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
                             lastShotTime = std::chrono::steady_clock::now();
                             entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
 
@@ -144,7 +146,7 @@ public:
         entity->getComponent<TurretComponent>().shoot(entity->getManager());
     }
     void draw() override {
-        TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE, 0);
+     Draw(texture, srcRect, destRect, SDL_FLIP_NONE, 0);
     }
 
 };
