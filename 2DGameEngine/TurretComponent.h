@@ -86,7 +86,7 @@ public:
                         // Calculate the target rotation angle in radians
                         float targetRadians = atan2(dyLength, dxLength);
                         //Converting to degrees
-                        targetRotation = targetRadians * 180.0f / M_PI;
+                        targetRotation = targetRadians * 180.0f / static_cast<float>(M_PI);
 
                         // This is meant to determine whether the enemy is on the left or right side. 
                         //Such an operation would allow to rotate the turret the shortest way possible
@@ -108,7 +108,7 @@ public:
                         // If the required time has passed and the turret is aligned, shoot
                         if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
                             std::string enemyFileName = "assets/projectile" + std::to_string(turretColor) + ".png";
-                            CreateProjectile(Vector2D(A0.x, A0.y), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
+                            CreateProjectile(Vector2D(static_cast<float>(A0.x), static_cast<float>(A0.y)), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
                             lastShotTime = std::chrono::steady_clock::now();
                             entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
 

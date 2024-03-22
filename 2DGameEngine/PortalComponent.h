@@ -22,12 +22,11 @@ private:
 	PortalComponent(int w, int e, Manager& man) :waves(w), nEnemies(e), managerial(man) { };
       
     void update() override {
-        srand(time(NULL()));
+        srand(time(NULL));
         enemytype = rand() % 4 + 1;
         entity->getComponent<SpriteComponent>().Play("Portal", 400);
-        srand(time(NULL)); 
-        spawnpoint.x = entity->getComponent<SpriteComponent>().getRect().x + Game::camera.x+rand() %  50 + 1;
-        spawnpoint.y = entity->getComponent<SpriteComponent>().getRect().y + Game::camera.y+rand() % 80 + 1;
+        spawnpoint.x = static_cast<float>(entity->getComponent<SpriteComponent>().getRect().x + Game::camera.x+rand() %  50 + 1);
+        spawnpoint.y = static_cast<float>(entity->getComponent<SpriteComponent>().getRect().y + Game::camera.y+rand() % 80 + 1);
         path.x = 1.5;
         path.y = 0;
         summonWave();

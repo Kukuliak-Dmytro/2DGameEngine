@@ -35,7 +35,7 @@ public:
 
 	void update() override
 	{
-		entity->getComponent<SpriteComponent>().setRotation(distance);
+		entity->getComponent<SpriteComponent>().setRotation(static_cast<float>(distance));
 		//each projectile has a range
 		distance += speed;
 		//and if the distance travelled is greater than range the projectile , it disappears

@@ -36,15 +36,15 @@ public:
 	//The source rectangle is dinamically changed so that the bar changes as well
 	void draw() override{
 		src.x = src.y = 0; src.h = src.w = 10;
-		dest.x = transform->position.x -Game::camera.x;
-		dest.y = transform->position.y - 10-Game::camera.y;
+		dest.x = static_cast<int>(transform->position.x) -Game::camera.x;
+		dest.y = static_cast<int>(transform->position.y) - 10-Game::camera.y;
 		dest.w = 32;
 		dest.h = 4;
 		Draw(LoadTexture("assets/health_bar_back.png"), src, dest, SDL_FLIP_NONE, 0);		
 		
 		src.x=0; src.y = (health/10)-1; src.h = 1; src.w = health/10;
-		dest.x = transform->position.x - Game::camera.x+2;
-		dest.y = transform->position.y - 10 - Game::camera.y+1;
+		dest.x = static_cast<int>(transform->position.x) - Game::camera.x+2;
+		dest.y = static_cast<int>(transform->position.y) - 10 - Game::camera.y+1;
 		dest.w = 28* src.w/10;
 		dest.h = 2;
 		Draw(LoadTexture("assets/health_bar.png"), src, dest, SDL_FLIP_NONE, 0);
@@ -56,7 +56,7 @@ public:
 			for (auto& p : manager.getGroup(Game::groupProjectiles)) {
 			
 				//SDL_HasIntersection is a bulit-in function used for defining collision between two "SDL_Rect" objects
-				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider)==true && p->getComponent<ProjectileComponent>().projectileColor == e->getComponent<EnemyComponent>().enemyColor) {
+				if (static_cast<bool>(SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &p->getComponent<ColliderComponent>().collider))==true && p->getComponent<ProjectileComponent>().projectileColor == e->getComponent<EnemyComponent>().enemyColor) {
 					//Subtract the damage inflicted
 					e->getComponent<EnemyComponent>().health = e->getComponent<EnemyComponent>().health - p->getComponent<ProjectileComponent>().getDmg();
 					//It is required so that the projectile would only hit ONE enemy and disappear, otherwise it would hit the closese ones as well

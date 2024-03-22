@@ -111,7 +111,7 @@ public:
 		destRect.w = transform->width;
 		destRect.h = transform->height;
 	}
-	void setRotation(float angle) { rotation = angle-270; }
+	void setRotation(float angle) { rotation = static_cast<int>(angle)-270; }
 
 	SDL_Rect& getRect() { return destRect; }
 
