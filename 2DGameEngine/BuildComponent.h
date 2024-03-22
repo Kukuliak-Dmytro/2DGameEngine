@@ -1,118 +1,66 @@
 #pragma once
 #include "Components.h"
 
-// Клас компоненту для будівництва
+// Class that allows to build and rebuild turrets
 class BuildComponent : public Component
 {
 private:
-    SDL_Rect src1, dest1, parent;
-    SDL_Rect src2, dest2;
-    SDL_Rect src3, dest3;
-    SDL_Rect src4, dest4;
-    SDL_Texture* button1, * button2, * button3, * button4;
+    //For texture rendering
+    SDL_Rect parent;
+    SDL_Rect src[4];
+    SDL_Rect dest[4];
+    SDL_Texture *texture[4];
+    //Flag to indicate when to draw the build interface
+    //BY default the buttons for build are not drawn
     bool drawbutton = false;
-    int xPosTmp, yPosTmp; // для динамічного визначення позиції рендеру кнопок
+    //The position of the tile
+    int xPosTmp, yPosTmp;
+ 
 
 public:
-    // Конструктор за замовчуванням
+    // Default constructor
     BuildComponent() = default;
-
-    // Конструктор з параметрами
     BuildComponent(int xPos, int Ypos)
     {
+        //The position of tile
         parent.x = xPos - Game::camera.x;
         parent.y = Ypos - Game::camera.y;
-        parent.h = parent.w = 128;
-        src1.x = src1.y = src2.x = src2.y = src3.x = src3.y = src4.x = src4.x = 0;
-        src1.w = src1.h = src2.w = src2.h = src3.w = src3.h = src4.w = src4.h = 64;
-
         xPosTmp = xPos;
         yPosTmp = Ypos;
-        dest1.h = dest1.w = 64;
-        dest2.h = dest2.w = 64;
-        dest3.h = dest3.w = 64;
-        dest4.h = dest4.w = 64;
-        button1 = TextureManager::LoadTexture("assets/button1.png");
-        button2 = TextureManager::LoadTexture("assets/button2.png");
-        button3 = TextureManager::LoadTexture("assets/button3.png");
-        button4 = TextureManager::LoadTexture("assets/button4.png");
-    }
-
-    // Функція візуалізації
-    void draw() override
-    {
-        click(parent);
-        if (drawbutton == true)
-        {
-            TextureManager::Draw(button1, src1, dest1, SDL_FLIP_NONE, 0);
-            TextureManager::Draw(button2, src2, dest2, SDL_FLIP_NONE, 0);
-            TextureManager::Draw(button3, src3, dest3, SDL_FLIP_NONE, 0);
-            TextureManager::Draw(button4, src4, dest4, SDL_FLIP_NONE, 0);
+        parent.h = parent.w = 128;
+        //Assigning the values for button rendering
+        for (int i = 0; i < 4; i++) {
+            src[i].x = src[i].y = 0;
+            src[i].w = src[i].h = 64;
+            dest[i].w = dest[i].h = 64;
+            std::string fileName = "assets/button" + std::to_string(i+1) + ".png";
+            texture[i] = TextureManager::LoadTexture(fileName.c_str());
         }
     }
-
-    // Функція оновлення
-    void update() override
+   
+    //The fucntion that would draw the buttons to build the turrets
+    void click(SDL_Rect& Rect)
     {
-        // Оновлення позицій кнопок
-        dest1.x = xPosTmp - 64;
-        dest1.y = yPosTmp - 64;
-        dest2.x = xPosTmp + 128;
-        dest2.y = yPosTmp - 64;
-        dest3.x = xPosTmp + 128;
-        dest3.y = yPosTmp + 128;
-        dest4.x = xPosTmp - 64;
-        dest4.y = yPosTmp + 128;
-
-        // Врахування позиції камери
-        dest1.x -= Game::camera.x;
-        dest1.y -= Game::camera.y;
-        dest2.x -= Game::camera.x;
-        dest2.y -= Game::camera.y;
-        dest3.x -= Game::camera.x;
-        dest3.y -= Game::camera.y;
-        dest4.x -= Game::camera.x;
-        dest4.y -= Game::camera.y;
-        parent.x = xPosTmp - Game::camera.x;
-        parent.y = yPosTmp - Game::camera.y;
-
-        // Отримання позиції миші
-        int mouseX, mouseY;
-        Uint32 mousestate = SDL_GetMouseState(&mouseX, &mouseY);
-        SDL_Point mousePoint = { mouseX, mouseY };
-
-        // Обробка події натискання миші
-        if (Game::event.type == SDL_MOUSEBUTTONDOWN && drawbutton == true)
-        {
-            switch (Game::event.button.button)
-            {
-            case SDL_BUTTON_LEFT:
-    
-                if (SDL_PointInRect(&mousePoint, &dest1)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y,"assets/turret1_base.png","assets/turret1_anims.png",1); }
-                if (SDL_PointInRect(&mousePoint, &dest2)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y, "assets/turret2_base.png", "assets/turret2_anims.png",2); }
-                if (SDL_PointInRect(&mousePoint, &dest3)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y, "assets/turret3_base.png", "assets/turret3_anims.png",3); }
-                if (SDL_PointInRect(&mousePoint, &dest4)) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y,"assets/turret4_base.png","assets/turret4_anims.png",4); }
-                break;
-            }
-        }
-    }
-
-    // Функція для перевірки натискання на кнопку
-    void click(SDL_Rect& testRect)
-    {
+        //VAriables for mouse state
         int mouseX, mouseY;
         SDL_GetMouseState(&mouseX, &mouseY);
         SDL_Point mousePoint = { mouseX, mouseY };
 
-        // Обробка події натискання миші
+        // if the left mouse button is pressed
         if (Game::event.type == SDL_MOUSEBUTTONDOWN)
         {
+            //if the buttons are already drawn, and the click is outside the tile
+            //stop the drawing of buttons
+            //if buttons are not drawn, just proceed ahead
             if (drawbutton)
                 drawbutton = !drawbutton;
             switch (Game::event.button.button)
             {
             case SDL_BUTTON_LEFT:
-                if (SDL_PointInRect(&mousePoint, &testRect))
+                //if the click has occured on the desired tile, set draw button from false to true
+                //That would be used in the next function
+                //&Rect is the rectangle of the tile on which we can build turrets
+                if (SDL_PointInRect(&mousePoint, &Rect))
                 {
                     drawbutton = !drawbutton;
                 }
@@ -120,4 +68,68 @@ public:
             }
         }
     }
+
+
+    //Render function
+    void draw() override
+    {
+        click(parent);
+        //If the flag is set true, draw the buttons
+        if (drawbutton == true)
+        {
+            for (int i = 0; i < 4; i++) {
+                TextureManager::Draw(texture[i], src[i], dest[i], SDL_FLIP_NONE, 0);
+
+            }
+        }
+    }
+
+
+
+    //Update function
+    void update() override
+    {
+        // Buttons positions update
+        dest[0].x = xPosTmp - 64;
+        dest[0].y = yPosTmp - 64;
+        dest[1].x = xPosTmp + 128;
+        dest[1].y = yPosTmp - 64;
+        dest[2].x = xPosTmp + 128;
+        dest[2].y = yPosTmp + 128;
+        dest[3].x = xPosTmp - 64;
+        dest[3].y = yPosTmp + 128;
+
+        for (int i = 0; i < 4; i++) {
+            dest[i].x -= Game::camera.x;
+            dest[i].y -= Game::camera.y;
+        }
+        parent.x = xPosTmp - Game::camera.x;
+        parent.y = yPosTmp - Game::camera.y;
+
+        // Variables for mouse position
+        int mouseX, mouseY;
+        Uint32 mousestate = SDL_GetMouseState(&mouseX, &mouseY);
+        SDL_Point mousePoint = { mouseX, mouseY };
+
+        // If there was a click and the buttons are drawn
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN && drawbutton == true)
+        {
+            switch (Game::event.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                for (int i = 0; i < 4; i++) {
+                    //variables for resourse files
+                    std::string base = "assets/turret" + std::to_string(i + 1) + "_base.png";
+                    std::string anims = "assets/turret" + std::to_string(i + 1) + "_anims.png";
+                    //Checks if any of the buttons is clicked and build turret if done so
+                    if (SDL_PointInRect(&mousePoint, &dest[i])) { Game::AddTurret(parent.x + Game::camera.x, parent.y + Game::camera.y, base.c_str(), anims.c_str(), i + 1); }
+                    
+                }
+                break;
+            }
+        }
+    }
+
+   
+   
 };

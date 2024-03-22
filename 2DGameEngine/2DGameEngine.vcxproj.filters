@@ -107,5 +107,8 @@
     <ClInclude Include="PortalComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Source Files\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

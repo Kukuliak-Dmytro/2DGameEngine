@@ -67,15 +67,10 @@ public:
 					//Remove for penetrating bullets
 					p->destroy();
 					//std::cout << health << std::endl;
+					
 				}
 			}
-			for (auto b : manager.getGroup(Game::groupBases)) {
-				if (SDL_HasIntersection(&e->getComponent<ColliderComponent>().collider, &b->getComponent<ColliderComponent>().collider))
-				{
-					//std::cout << "Base penetrated!" << std::endl;
-					e->destroy();
-				}
-			}
+			
 		}
 	}
 	void update() override
@@ -86,6 +81,7 @@ public:
 		if (health <= 0) {
 			//std::cout << "Health reached zero";
 			entity->destroy();
+			Game::DefeatedEnemies++;
 			
 		}
 		//Looping checking collisions

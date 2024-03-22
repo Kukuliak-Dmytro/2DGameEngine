@@ -4,8 +4,10 @@
 #include "ECS.h"
 #include "Components.h"
 
+//Class meant for collision
 class ColliderComponent : public Component {
 public:
+    //COllider rectangle
     SDL_Rect collider;
     std::string tag;
     TransformComponent* transform;

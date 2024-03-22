@@ -12,3 +12,4 @@
 #include "EnemyComponent.h"
 #include "DummyComponent.h"
 #include "PortalComponent.h"
+#include "BaseComponent.h"

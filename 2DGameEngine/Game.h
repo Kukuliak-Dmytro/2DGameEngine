@@ -10,9 +10,7 @@
 // Class definition for the Game
 class Game {
 public:
-	// Constructor
 	Game();
-	// Destructor
 	~Game();
 
 	// Initializes the game
@@ -23,13 +21,8 @@ public:
 
 	// Updates game state
 	void update();
-
-	// Checks if the game is running
 	bool running() { return isRunning; };
-
-	// Renders the game
 	void render();
-
 	// Cleans up resources and quits the game
 	void clean();
 
@@ -50,6 +43,8 @@ public:
 
 	// Camera rectangle for rendering
 	static SDL_Rect camera;
+	//Game score
+	 static int SpawnedEnemies, Lives, DefeatedEnemies;
 
 	// Enum defining groups of game objects
 	enum groupLabels : std::size_t

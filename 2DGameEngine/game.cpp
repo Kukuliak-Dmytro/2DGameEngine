@@ -19,6 +19,9 @@ SDL_Event Game::event;
 
 // Визначення прямокутника камери
 SDL_Rect Game::camera = { 320,192,640,456 };
+int Game::SpawnedEnemies = 0;
+int Game::DefeatedEnemies = 0;
+int Game::Lives = 10;
 
 // Початкове значення флагу isRunning - false
 bool Game::isRunning = false;
@@ -87,6 +90,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     base.addComponent<TransformComponent>(12 * 128, 5 * 128, 128, 128);
     base.addComponent<ColliderComponent>("base");
     base.addComponent<SpriteComponent>("assets/base.png", false);
+    base.addComponent<BaseComponent>();
     base.addGroup(Game::groupBases);
 };
 
@@ -95,9 +99,7 @@ void Game::handleEvents() {
     SDL_PollEvent(&event);
     switch (event.type) {
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_SPACE) {
-        }
-        else 
+       
         if (event.key.keysym.sym == SDLK_ESCAPE) {   
             isRunning = false;
         }

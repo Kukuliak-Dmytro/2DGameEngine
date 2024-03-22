@@ -12,6 +12,8 @@ private:
 	int waves, nEnemies;
     int k = 0;
     int enemytype = 1;
+    int spawnedEnemies = 0;
+    SDL_Rect src, dest;
     std::chrono::steady_clock::time_point lastShotTime;
   public:
 	PortalComponent() = default;
@@ -35,9 +37,35 @@ private:
            std::string enemyFileName = "assets/enemy" + std::to_string(enemytype) + ".png";
             EntityManager::CreateEnemy(spawnpoint, path, enemyFileName.c_str(), &managerial,enemytype);
             lastShotTime = std::chrono::steady_clock::now();
+            Game::SpawnedEnemies++;
                          
        }    
         
+    }
+    void draw() override {
+        std::string file = "Enemies spawned " + std::to_string(Game::SpawnedEnemies);
+        const char* a = file.c_str();
+      
+        src.x = src.y = 0; src.h = src.w = 256;
+        dest.w = 312;
+        dest.h = 64;
+        dest.x = 0;
+        dest.y = 0;
+
+
+        TextureManager::Draw(TextureManager::LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+
+        file = "Enemies defeated " + std::to_string(Game::DefeatedEnemies);
+         a = file.c_str();
+
+        src.x = src.y = 0; src.h = src.w = 256;
+        dest.w = 312;
+        dest.h = 64;
+        dest.x = 0;
+        dest.y = 64;
+
+
+        TextureManager::Draw(TextureManager::LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
     }
 
 	
