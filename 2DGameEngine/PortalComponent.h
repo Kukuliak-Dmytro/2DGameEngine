@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <ctime>
-#include <thread>
+
 #include "Components.h"
 
 class PortalComponent : public Component {
@@ -14,6 +14,8 @@ private:
     int enemytype = 1;
     int spawnedEnemies = 0;
     SDL_Rect src, dest;
+    int enemySpeed = 1;
+    int enemyHealth = 100;
     std::chrono::steady_clock::time_point lastShotTime;
   public:
 	PortalComponent() = default;
@@ -26,7 +28,7 @@ private:
         srand(time(NULL)); 
         spawnpoint.x = entity->getComponent<SpriteComponent>().getRect().x + Game::camera.x+rand() %  50 + 1;
         spawnpoint.y = entity->getComponent<SpriteComponent>().getRect().y + Game::camera.y+rand() % 80 + 1;
-        path.x = 0.3;
+        path.x = 1.5;
         path.y = 0;
         summonWave();
     }
@@ -35,7 +37,7 @@ private:
        std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
        if (elapsedTime.count() >= 1000) {
            std::string enemyFileName = "assets/enemy" + std::to_string(enemytype) + ".png";
-            EntityManager::CreateEnemy(spawnpoint, path, enemyFileName.c_str(), &managerial,enemytype);
+            EntityManager::CreateEnemy(spawnpoint, path,enemySpeed,enemyHealth, enemyFileName.c_str(), &managerial,enemytype);
             lastShotTime = std::chrono::steady_clock::now();
             Game::SpawnedEnemies++;
                          

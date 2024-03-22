@@ -2,12 +2,10 @@
 
 #include <math.h>
 #include <chrono>
-#include "Components.h"
-#include "ECS.h"
 #include "ProjectileComponent.h"
 #include "EnemyComponent.h"
 #include "EntityManager.h"
-#include "Tools.h"
+
 
 
 
@@ -24,14 +22,18 @@ private:
     float currentRotation=0;
     float targetRotation=0;
     float rotationSpeed=0.1f;
-    //The delay between shots
-    // 1000 milliseconds = 1 second
+  
+    //The specs of the turret
     const int range = 700;
+    // 1000 milliseconds = 1 second
     const int shootDelayDuration = 450; 
     const int projectileRange = 250;
     const int projectileSpeed= 3;
     const int projectileDamage= 20;
     int turretColor = 1;
+    //The resources for rendering the base of the turret
+    SDL_Texture* texture;
+    SDL_Rect srcRect, destRect;
 
     //Chrono to measure time between shots
     std::chrono::steady_clock::time_point lastShotTime;
@@ -40,9 +42,14 @@ public:
     TurretComponent() {
 
     }
-    TurretComponent(int x, int y, int color)
+    TurretComponent(int x, int y, int color, const char* path)
     {
-     
+        //For rendering the base of the turret
+        texture = TextureManager::LoadTexture(path);
+        srcRect.x = srcRect.y = 0;
+        srcRect.w = 128;
+        srcRect.h = 128;
+        //Parent is the position of the turret used for calculating the distance to the enemy
         parent.x = x;
         parent.y = y;
         parent.h = parent.w = 128;
@@ -53,7 +60,6 @@ public:
     } 
  
     //Method that checks enemies within range and automatically shoots
-
     void shoot(Manager& manager)
     {
         //Getting the groupEnemies vector and checking !empty, otherwise - crash
@@ -66,10 +72,10 @@ public:
                     std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
 
                     // Check if the enemy is in range
-                    if (tools::distance(e->getComponent<ColliderComponent>().collider, parent) < range) {
+                    if (distance(e->getComponent<ColliderComponent>().collider, parent) < range) {
                         //Calculating horisontal and vertical distances using trigonometry
-                        float dxLength = tools::dx(e->getComponent<ColliderComponent>().collider, parent);
-                        float dyLength = tools::dy(e->getComponent<ColliderComponent>().collider, parent);
+                        float dxLength = dx(e->getComponent<ColliderComponent>().collider, parent);
+                        float dyLength = dy(e->getComponent<ColliderComponent>().collider, parent);
                         //and setting the direction of the vector according to those values
                         Vector2D direction(dxLength, dyLength);
                         //Normalizing the vector = keeps the same direction, but its modulus(length) is set to 1
@@ -128,8 +134,17 @@ public:
 
 
     void update() override {
+        //For rendering the base of the turret that is not animated
+        destRect.x = static_cast<int>(entity->getComponent<TransformComponent>().position.x) - Game::camera.x;
+        destRect.y = static_cast<int>(entity->getComponent<TransformComponent>().position.y) - Game::camera.y;
+
+        destRect.w = entity->getComponent<TransformComponent>().width;
+        destRect.h = entity->getComponent<TransformComponent>().height;
         //Calling shoot() on a regular basis
         entity->getComponent<TurretComponent>().shoot(entity->getManager());
+    }
+    void draw() override {
+        TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE, 0);
     }
 
 };

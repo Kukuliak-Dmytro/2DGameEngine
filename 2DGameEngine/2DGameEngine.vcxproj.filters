@@ -27,9 +27,6 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,7 +36,7 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tools.cpp">
+    <ClCompile Include="Functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
@@ -98,10 +92,7 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>Source Files\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="DummyComponent.h">
-      <Filter>Source Files\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools.h">
+    <ClInclude Include="Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PortalComponent.h">

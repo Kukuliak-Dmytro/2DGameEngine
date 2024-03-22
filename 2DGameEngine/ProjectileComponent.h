@@ -1,9 +1,7 @@
 #pragma once
 
-#include "ECS.h"
 #include "Components.h"
-#include "Vector2D.h"
-#include "Tools.h"
+
 
 class ProjectileComponent : public Component
 {
@@ -68,8 +66,8 @@ public:
 	
 			if (distance > 50) {
 				//Calculate the vertical and horizontal distances
-				dxLength = tools::dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
-				dyLength = tools::dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
+				dxLength = dx(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
+				dyLength = dy(entity->getComponent<ColliderComponent>().collider, target.getComponent<ColliderComponent>().collider);
 				//Define a vector with parameters of direction
 				direction.x = -dxLength;
 				direction.y = -dyLength;

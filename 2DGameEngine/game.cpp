@@ -1,17 +1,11 @@
 
 #include "Game.h"
 #include "TextureManager.h"
-#include "Map.h"
-#include "ECS.h"
 #include "Components.h"
-#include "Vector2D.h"
-
 #include "MouseControlls.h"
 #include "SDL_ttf.h"
 #include "EntityManager.h"
 
-// Вказівник на об'єкт класу Map
-Map* map;
 Manager manager;
 // Рендерер та обробник подій з початку nullptr
 SDL_Renderer* Game::renderer = nullptr;
@@ -26,12 +20,8 @@ int Game::Lives = 10;
 // Початкове значення флагу isRunning - false
 bool Game::isRunning = false;
 
-// Визначення об'єкту player
-auto& player(manager.addEntity());
-
 // Шлях до файлу карти
 const char* mapfile = "assets/tiles.png";
-
 // Групи об'єктів
 auto& tilesTrue(manager.getGroup(Game::groupTilesTrue));
 auto& tiles(manager.getGroup(Game::groupTilesMap));
@@ -46,9 +36,9 @@ MouseControlls mouse;
 
 // Конструктор класу Game
 Game::Game() {};
-
 // Деструктор класу Game
 Game::~Game() {};
+
 
 // Ініціалізація - налаштування вікна гри, рендерера та інших компонентів
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
@@ -73,22 +63,21 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     }
     else { isRunning = false; }
-
     // Ініціалізація SDL_ttf
-    if (TTF_Init() == -1) { std::cout << "Помилка ініціалізації SDL_ttf"; } // Error initializing SDL_ttf
-    map = new Map();
-    Map::LoadMap("assets/map.map", 20, 12);
- 
+    if (TTF_Init() == -1) { std::cout << "Error initializing SDL_ttf"; } // Error initializing SDL_ttf
+    LoadMap("assets/map.map", 20, 12);
 
+ 
+    //Adding the portal entity
     auto& portal(manager.addEntity());
     portal.addComponent<TransformComponent>(3*128,5*128,128,128);
     portal.addComponent<SpriteComponent>("assets/portal.png", true);
     portal.addComponent<PortalComponent>(5,5,manager);
     portal.addGroup(Game::groupPortals);
-
+    //Adding the base entity
     auto& base(manager.addEntity());
     base.addComponent<TransformComponent>(12 * 128, 5 * 128, 128, 128);
-    base.addComponent<ColliderComponent>("base");
+    base.addComponent<ColliderComponent>();
     base.addComponent<SpriteComponent>("assets/base.png", false);
     base.addComponent<BaseComponent>();
     base.addGroup(Game::groupBases);
@@ -166,9 +155,8 @@ void Game::AddTurret(int xpos, int ypos, const char* path1, const char* path2, i
     for (auto& t : manager.getGroup(Game::groupTurrets)) { if (t->getComponent<TransformComponent>().position.x == xpos && t->getComponent<TransformComponent>().position.y == ypos) t->destroy(); }
     auto& turret(manager.addEntity());
     turret.addComponent<TransformComponent>(xpos, ypos, 128, 128, 1);
-    turret.addComponent<dummy>(path1);
+    turret.addComponent<TurretComponent>(xpos, ypos, type, path1);
     turret.addComponent<SpriteComponent>(path2, true);
-    turret.addComponent<TurretComponent>(xpos, ypos,type);
     turret.addGroup(Game::groupTurrets);
    // std::cout << "Turret built"; 
 }

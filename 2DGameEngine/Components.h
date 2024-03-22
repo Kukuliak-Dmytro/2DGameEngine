@@ -1,6 +1,9 @@
 #pragma once
+//A hub file that contains all the othe components for convenience
 #include "SDL.h"
 #include "ECS.h"
+#include "Vector2D.h"
+#include "Functions.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "KeyboardController.h"
@@ -10,6 +13,5 @@
 #include "BuildComponent.h"
 #include "ProjectileComponent.h"
 #include "EnemyComponent.h"
-#include "DummyComponent.h"
 #include "PortalComponent.h"
 #include "BaseComponent.h"

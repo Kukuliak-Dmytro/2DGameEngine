@@ -138,15 +138,13 @@
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BaseComponent.h" />
-    <ClInclude Include="DummyComponent.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ColliderComponent.h" />
@@ -154,11 +152,10 @@
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="PortalComponent.h" />
-    <ClInclude Include="Tools.h" />
+    <ClInclude Include="Functions.h" />
     <ClInclude Include="TurretComponent.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="BuildComponent.h" />
-    <ClInclude Include="Map.h" />
     <ClInclude Include="MouseControlls.h" />
     <ClInclude Include="ProjectileComponent.h" />
     <ClInclude Include="TileComponent.h" />

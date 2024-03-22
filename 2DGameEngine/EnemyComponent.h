@@ -1,7 +1,6 @@
 #pragma once
-#include "ECS.h"
 #include "Components.h"
-#include "Vector2D.h"
+
 
 
 
@@ -12,8 +11,7 @@ private:
 	TransformComponent* transform;
 
 	Vector2D Direction;
-	int health = 100;
-	int coins;
+	int health;
 	SDL_Rect src;
 	SDL_Rect dest;
 	
