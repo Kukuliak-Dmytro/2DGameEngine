@@ -47,26 +47,28 @@ private:
         std::string file = "Enemies spawned " + std::to_string(Game::SpawnedEnemies);
         const char* a = file.c_str();
       
-        src.x = src.y = 0; src.h = src.w = 256;
+        src.x = src.y = 0; 
+        src.h = src.w = 512;
         dest.w = 312;
         dest.h = 64;
-        dest.x = 0;
-        dest.y = 0;
+        dest.x = 208;
+        dest.y = 128;
 
 
-       Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+       Draw(LoadFont("assets/font2.ttf",24, a), src, dest, SDL_FLIP_NONE, 0);
 
         file = "Enemies defeated " + std::to_string(Game::DefeatedEnemies);
          a = file.c_str();
 
-        src.x = src.y = 0; src.h = src.w = 256;
+        src.x = src.y = 0; 
+        src.h = src.w = 512;
         dest.w = 312;
         dest.h = 64;
-        dest.x = 0;
-        dest.y = 64;
+        dest.x = 208;
+        dest.y = 192;
 
 
-       Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
+       Draw(LoadFont("assets/font2.ttf", 24, a), src, dest, SDL_FLIP_NONE, 0);
     }
 
 	

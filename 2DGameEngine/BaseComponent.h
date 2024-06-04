@@ -36,11 +36,11 @@ public:
 		std::string file = "Lives remaining " + std::to_string(Game::Lives);
 		const char* a = file.c_str();
 		//For rendering
-		src.x = src.y = 0; src.h = src.w = 256;
+		src.x = src.y = 0; src.h = src.w = 512;
 		dest.w = 312;
 		dest.h = 64;
-		dest.x =1920-dest.w;
-		dest.y =0;
+		dest.x = 1920 - 512;
+		dest.y =128;
 		//Rendering
 		Draw(LoadFont("assets/font2.ttf", 8, a), src, dest, SDL_FLIP_NONE, 0);
 	}

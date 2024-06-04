@@ -29,7 +29,6 @@ SDL_Texture* LoadFont(std::string fontPath, int fontSize, const char* fontText) 
 }
 void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip, int angle)
 {
-
 	SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, angle, NULL, flip);
 }
 

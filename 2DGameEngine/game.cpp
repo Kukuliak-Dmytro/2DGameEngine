@@ -11,7 +11,7 @@ SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
 // Визначення прямокутника камери
-SDL_Rect Game::camera = { 320,192,640,456 };
+SDL_Rect Game::camera = { 320,192,640,384 };
 int Game::SpawnedEnemies = 0;
 int Game::DefeatedEnemies = 0;
 int Game::Lives = 10;
