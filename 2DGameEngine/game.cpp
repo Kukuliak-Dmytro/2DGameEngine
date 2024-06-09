@@ -3,6 +3,8 @@
 #include "Components.h"
 #include "MouseControlls.h"
 #include "SDL_ttf.h"
+#include <thread>
+
 
 
 Manager manager;
@@ -65,6 +67,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     // Ініціалізація SDL_ttf
     if (TTF_Init() == -1) { std::cout << "Error initializing SDL_ttf"; } // Error initializing SDL_ttf
     LoadMap("assets/map.map", 20, 12);
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+      
+    }
+    playSound("assets/acepe.wav");
 
  
     //Adding the portal entity
@@ -91,8 +98,19 @@ void Game::handleEvents() {
         if (event.key.keysym.sym == SDLK_ESCAPE) {   
             isRunning = false;
         }
+        if (event.key.keysym.sym == SDLK_SPACE && Lives==0) {
+            DefeatedEnemies = 0;
+            SpawnedEnemies = 0;
+            Lives = 10;
+            pauseSwitch = true;
+            for (auto e : enemies){ e->destroy();}
+            for (auto t : turrets){ t->destroy();}
+            for (auto p : projectiles){ p->destroy();}
+
+           
+        }
         break;
-       
+      
     default:
         break;
     }
@@ -102,9 +120,15 @@ void Game::handleEvents() {
 // Функція оновлення логіки гри
 void Game::update()
 {
-    manager.refresh();
-    manager.update();
-    mouse.CameraScroll(camera);
+    if (Game::pauseSwitch == true) 
+    {
+        manager.refresh();
+        manager.update();
+        mouse.CameraScroll(camera);
+    }
+     
+    if (Game::Lives == 0)Game::pauseSwitch = false;
+    
     SDL_RenderClear(renderer);
 };
 
@@ -118,11 +142,31 @@ void Game::render() {
     for (auto& t : turrets) { t->draw(); }
     for (auto& p : portals) { p->draw(); }
     for (auto& b : bases) { b->draw(); }
-  
+    
    
     mouse.Hover();
+    if (pauseSwitch == false)
+    {        
+            SDL_Rect src, dest;
+            src.x = src.y = 0; src.h = src.w = 512;
+            dest.w = 500;
+            dest.h = 128;
+            dest.x = 700;
+            dest.y = 500;
+            const char* over = "Game over";
+            Draw(LoadFont("assets/font2.ttf", 8, over), src, dest, SDL_FLIP_NONE, 0);           
+            std::string file = "Score: " + std::to_string(Game::DefeatedEnemies);
+            const char* score = file.c_str();
+            dest.w = 256;
+            dest.h = 64;
+            dest.x = 800;
+            dest.y = 658;
+            Draw(LoadFont("assets/font2.ttf", 8, score), src, dest, SDL_FLIP_NONE, 0);
+        
+    }
     SDL_RenderPresent(renderer);
 };
+
 
 // Функція очищення ресурсів та виходу з гри
 void Game::clean() {

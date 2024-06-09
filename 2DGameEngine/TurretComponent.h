@@ -109,6 +109,7 @@ public:
                         if (elapsedTime.count() >= shootDelayDuration && (rotationDifference) < 10) {
                             std::string enemyFileName = "assets/projectile" + std::to_string(turretColor) + ".png";
                             CreateProjectile(Vector2D(static_cast<float>(A0.x), static_cast<float>(A0.y)), direction, projectileRange, projectileSpeed, projectileDamage, enemyFileName.c_str(), &manager, *e, turretColor);
+                            playSound("assets/shoot_sound.wav");
                             lastShotTime = std::chrono::steady_clock::now();
                             entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
 

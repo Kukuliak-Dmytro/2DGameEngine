@@ -139,6 +139,8 @@ public:
         for (auto& e : entities) e->draw();
     }
 
+   
+
     void refresh() {
         for (auto i(0u); i < maxGroups; i++) {
             auto& v(groupedEntities[i]);

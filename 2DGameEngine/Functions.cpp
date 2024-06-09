@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include "Components.h"
+#include "Functions.h"
 
 
 SDL_Texture* LoadTexture(const char* texture) {
@@ -17,7 +18,7 @@ SDL_Texture* LoadTexture(const char* texture) {
 }
 SDL_Texture* LoadFont(std::string fontPath, int fontSize, const char* fontText) {
 	TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
-	SDL_Color color = { 255,255,255,255 };
+	SDL_Color color = { 128,128,128,255 };
 	SDL_Surface* tempSurface = TTF_RenderText_Blended(font, fontText, color);
 	SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
 	SDL_FreeSurface(tempSurface);
@@ -113,3 +114,22 @@ void CreateEnemy(Vector2D pos, Vector2D vel, int speed, int health, const char* 
 
 }
 
+void playSound(const char* path) {
+	Mix_Chunk* sound = Mix_LoadWAV(path);
+	if (sound == NULL) {
+		std::cout << "Failed to load sound effect! SDL_mixer Error: "<< Mix_GetError();
+	}
+	Mix_PlayChannel(-1, sound, 0);
+	//Mix_FreeChunk(sound);
+	
+}
+
+
+void playMusic(const char* path) {
+	Mix_Music* music = Mix_LoadMUS(path);
+	if (music == NULL) {
+		std::cout << "Failed to load music! SDL_mixer Error: " << Mix_GetError();
+	}
+	Mix_PlayMusic(music, -1); 
+	//Mix_FreeMusic(music);
+}

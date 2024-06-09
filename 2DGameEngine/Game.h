@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 // Class definition for the Game
 class Game {
@@ -23,6 +24,7 @@ public:
 	void update();
 	bool running() { return isRunning; };
 	void render();
+	
 	// Cleans up resources and quits the game
 	void clean();
 
@@ -45,6 +47,7 @@ public:
 	static SDL_Rect camera;
 	//Game score
 	 static int SpawnedEnemies, Lives, DefeatedEnemies;
+	 int pauseSwitch = true;
 
 	// Enum defining groups of game objects
 	enum groupLabels : std::size_t
