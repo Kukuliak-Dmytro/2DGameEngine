@@ -6,6 +6,7 @@
 
 class PortalComponent : public Component {
 private:
+    int enemyDelay = 1000;
     Vector2D spawnpoint;
     Vector2D path;
     Manager& managerial;
@@ -34,9 +35,10 @@ private:
     void summonWave() {   
       auto currentTime = std::chrono::steady_clock::now();
        std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
-       if (elapsedTime.count() >= 1000) {
+       if (elapsedTime.count() >= enemyDelay) {
            std::string enemyFileName = "assets/enemy" + std::to_string(enemytype) + ".png";
             CreateEnemy(spawnpoint, path,enemySpeed,enemyHealth, enemyFileName.c_str(), &managerial,enemytype);
+            enemyDelay--;
             lastShotTime = std::chrono::steady_clock::now();
             Game::SpawnedEnemies++;
                          
