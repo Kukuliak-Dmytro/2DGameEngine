@@ -47,7 +47,7 @@ public:
 	static SDL_Rect camera;
 	//Game score
 	 static int SpawnedEnemies, Lives, DefeatedEnemies;
-	 int pauseSwitch = true;
+	 static bool pauseSwitch;
 
 	// Enum defining groups of game objects
 	enum groupLabels : std::size_t

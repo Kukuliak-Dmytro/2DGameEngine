@@ -20,6 +20,7 @@ int Game::Lives = 10;
 
 // Початкове значення флагу isRunning - false
 bool Game::isRunning = false;
+bool Game::pauseSwitch = true;
 
 // Шлях до файлу карти
 const char* mapfile = "assets/tiles.png";
@@ -78,7 +79,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     auto& portal(manager.addEntity());
     portal.addComponent<TransformComponent>(3*128,5*128,128,128);
     portal.addComponent<SpriteComponent>("assets/portal.png", true);
-    portal.addComponent<PortalComponent>(5,5,manager);
+    portal.addComponent<PortalComponent>(manager);
     portal.addGroup(Game::groupPortals);
     //Adding the base entity
     auto& base(manager.addEntity());
@@ -102,7 +103,7 @@ void Game::handleEvents() {
             DefeatedEnemies = 0;
             SpawnedEnemies = 0;
             Lives = 10;
-            pauseSwitch = true;
+            Game::pauseSwitch = true;
             for (auto e : enemies){ e->destroy();}
             for (auto t : turrets){ t->destroy();}
             for (auto p : projectiles){ p->destroy();}
@@ -145,7 +146,7 @@ void Game::render() {
     
    
     mouse.Hover();
-    if (pauseSwitch == false)
+    if (Game::pauseSwitch == false)
     {        
             SDL_Rect src, dest;
             src.x = src.y = 0; src.h = src.w = 512;

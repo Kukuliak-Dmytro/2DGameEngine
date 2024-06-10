@@ -47,7 +47,7 @@ public:
         SDL_Point mousePoint = { mouseX, mouseY };
 
         // if the left mouse button is pressed
-        if (Game::event.type == SDL_MOUSEBUTTONDOWN)
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN && Game::pauseSwitch==true)
         {
             //if the buttons are already drawn, and the click is outside the tile
             //stop the drawing of buttons

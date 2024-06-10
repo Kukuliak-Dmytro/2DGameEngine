@@ -59,7 +59,7 @@ private:
     GroupBitSet groupBitSet;
 
 public:
-    Entity(Manager& mManager) : manager(mManager) {};
+    Entity(Manager& mManager) : manager(mManager),componentArray{} {};
     Manager& getManager() { return manager; }
 
     void update() {
