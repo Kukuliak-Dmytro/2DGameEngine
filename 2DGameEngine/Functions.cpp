@@ -1,9 +1,9 @@
 
-#include <cmath>
-#include <string>
-#include <fstream>
 #include "Components.h"
 #include "Functions.h"
+#include <cmath>
+#include <fstream>
+#include <string>
 
 
 SDL_Texture* LoadTexture(const char* texture) {
@@ -57,25 +57,25 @@ void LoadMap(std::string path, int sizeX, int sizeY)
 	mapFile.close();
 };
 
- float dx(const SDL_Rect& rect1, const SDL_Rect& rect2) {
-     if (&rect2 == nullptr) { return 0.0f; }
-     return(rect1.x + (rect1.w / static_cast<float>(2))) - (rect2.x + (rect2.w / static_cast<float>(2)));
+float dx(const SDL_Rect& rect1, const SDL_Rect& rect2) {
+	if (&rect2 == nullptr) { return 0.0f; }
+	return(rect1.x + (rect1.w / static_cast<float>(2))) - (rect2.x + (rect2.w / static_cast<float>(2)));
 }
 
 float dy(const SDL_Rect& rect1, const SDL_Rect& rect2) {
-    if (&rect2 == nullptr) { return 0.0f; }
-    return (rect1.y + (rect1.h / static_cast<float>(2))) - (rect2.y + (rect2.h / static_cast<float>(2)));  
+	if (&rect2 == nullptr) { return 0.0f; }
+	return (rect1.y + (rect1.h / static_cast<float>(2))) - (rect2.y + (rect2.h / static_cast<float>(2)));
 }
 float distance(SDL_Rect rect1, SDL_Rect rect2)
 
 {
-    float x1 = static_cast<float>(rect1.x) + static_cast<float>( rect1.w )/ 2;
-    float y1 = static_cast<float>(rect1.y) + static_cast<float>(rect1.h) / 2;
-    float x2 = static_cast<float>(rect2.x) + static_cast<float>(rect2.w )/ 2;
-    float y2 = static_cast<float>(rect2.y) + static_cast<float>(rect2.h )/ 2;
-    float delta;
-    delta = static_cast<float>(sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2)));
-    return delta;
+	float x1 = static_cast<float>(rect1.x) + static_cast<float>(rect1.w) / 2;
+	float y1 = static_cast<float>(rect1.y) + static_cast<float>(rect1.h) / 2;
+	float x2 = static_cast<float>(rect2.x) + static_cast<float>(rect2.w) / 2;
+	float y2 = static_cast<float>(rect2.y) + static_cast<float>(rect2.h) / 2;
+	float delta;
+	delta = static_cast<float>(sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2)));
+	return delta;
 }
 
 void CreateProjectile(Vector2D pos, Vector2D vel, int range, int speed, int dmg, const char* id, Manager* man, Entity& enemy, int type)
@@ -117,11 +117,11 @@ void CreateEnemy(Vector2D pos, Vector2D vel, int speed, int health, const char* 
 void playSound(const char* path) {
 	Mix_Chunk* sound = Mix_LoadWAV(path);
 	if (sound == NULL) {
-		std::cout << "Failed to load sound effect! SDL_mixer Error: "<< Mix_GetError();
+		std::cout << "Failed to load sound effect! SDL_mixer Error: " << Mix_GetError();
 	}
 	Mix_PlayChannel(-1, sound, 0);
 	//Mix_FreeChunk(sound);
-	
+
 }
 
 
@@ -130,6 +130,6 @@ void playMusic(const char* path) {
 	if (music == NULL) {
 		std::cout << "Failed to load music! SDL_mixer Error: " << Mix_GetError();
 	}
-	Mix_PlayMusic(music, -1); 
+	Mix_PlayMusic(music, -1);
 	//Mix_FreeMusic(music);
 }

@@ -1,9 +1,4 @@
 #pragma once
-
-#include "Components.h" 
-#include <map>
-#include <chrono>
-
 struct Animation
 {
 	int index;
@@ -28,13 +23,13 @@ private:
 	bool animated = false;
 	int frames = 0;
 	int speed = 0;
-	bool shootFlag = false;
+	bool frameFlag = false;
 	//Flag that switches between animations
 	//This is a bad approach, since I need to add an array and every time to skip through each frame.
 	//But I have only 2 frames due to the simplicity of the game. So, this slack would pass
 
 
-	std::chrono::steady_clock::time_point lastShotTime;
+	std::chrono::steady_clock::time_point LastFrameTime;
 
 public:
 	int animIndex = 0;
@@ -92,15 +87,15 @@ public:
 			//The current point of time
 			auto currentTime = std::chrono::steady_clock::now();
 			//I have no idea how it works, but the cicle works every "speed" milliseconds
-			std::chrono::duration<double, std::milli> elapsedTime = currentTime - lastShotTime;
+			std::chrono::duration<double, std::milli> elapsedTime = currentTime - LastFrameTime;
 			if (elapsedTime.count() >= speed) {
 				//Flip through frames, the code simplicity just because I have 2 frames only
 				//A better approach would be to overload ++ operator and allow "frames" number of values, iterate each time,
 				//and if the value exceeds "frames", to start at zero, or at first frame
 				//Anyway, this game doesn`t require that difficult operations, for now
-				srcRect.x = srcRect.w * !shootFlag*(frames-1);
-				lastShotTime = std::chrono::steady_clock::now();
-				shootFlag = !shootFlag;
+				srcRect.x = srcRect.w * !frameFlag*(frames-1);
+				LastFrameTime = std::chrono::steady_clock::now();
+				frameFlag = !frameFlag;
 			}
 		}
 		

@@ -1,6 +1,6 @@
 #pragma once
-#include "Components.h"
-#include "Game.h"
+
+
 
 class TransformComponent : public Component {
 
@@ -8,9 +8,8 @@ public:
 	Vector2D position;
 	Vector2D velocity;
 
-
-	int height = 32;
-	int width = 32;
+	int height=32;
+	int width=32;
 
 	int speed = 1;
 

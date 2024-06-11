@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Components.h"
-
-
 class ProjectileComponent : public Component
 {
 private:

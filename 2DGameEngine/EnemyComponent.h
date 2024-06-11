@@ -1,9 +1,4 @@
 #pragma once
-#include "Components.h"
-#include "ProjectileComponent.h"
-
-
-
 
 class EnemyComponent : public Component
 {

@@ -1,8 +1,5 @@
 #pragma once
-#include <ctime>
-#include <vector>
 
-#include "Components.h"
 
 class PortalComponent : public Component {
 private:
@@ -37,7 +34,7 @@ public:
 		if (elapsedTime.count() >= enemyDelay) {
 			std::string enemyFileName = "assets/enemy" + std::to_string(enemytype) + ".png";
 			CreateEnemy(spawnpoint, path, enemySpeed, enemyHealth, enemyFileName.c_str(), &pManager, enemytype);
-			enemyDelay--;
+			//enemyDelay--;
 			lastSpawnedEnemy = std::chrono::steady_clock::now();
 			Game::SpawnedEnemies++;
 

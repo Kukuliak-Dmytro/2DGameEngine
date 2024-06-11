@@ -1,5 +1,5 @@
 #pragma once
-#include "Components.h"
+
 
 // Class that allows to build and rebuild turrets
 class BuildComponent : public Component
@@ -14,7 +14,7 @@ private:
     //BY default the buttons for build are not drawn
     bool drawbutton = false;
     //The position of the tile
-    int xPosTmp, yPosTmp;
+    int tilePositionX, tilePositionY;
  
 
 public:
@@ -25,8 +25,8 @@ public:
         //The position of tile
         parent.x = xPos - Game::camera.x;
         parent.y = Ypos - Game::camera.y;
-        xPosTmp = xPos;
-        yPosTmp = Ypos;
+        tilePositionX = xPos;
+        tilePositionY = Ypos;
         parent.h = parent.w = 128;
         //Assigning the values for button rendering
         for (int i = 0; i < 4; i++) {
@@ -90,21 +90,21 @@ public:
     void update() override
     {
         // Buttons positions update
-        dest[0].x = xPosTmp - 64;
-        dest[0].y = yPosTmp - 64;
-        dest[1].x = xPosTmp + 128;
-        dest[1].y = yPosTmp - 64;
-        dest[2].x = xPosTmp + 128;
-        dest[2].y = yPosTmp + 128;
-        dest[3].x = xPosTmp - 64;
-        dest[3].y = yPosTmp + 128;
+        dest[0].x = tilePositionX - 64;
+        dest[0].y = tilePositionY - 64;
+        dest[1].x = tilePositionX + 128;
+        dest[1].y = tilePositionY - 64;
+        dest[2].x = tilePositionX + 128;
+        dest[2].y = tilePositionY + 128;
+        dest[3].x = tilePositionX - 64;
+        dest[3].y = tilePositionY + 128;
 
         for (int i = 0; i < 4; i++) {
             dest[i].x -= Game::camera.x;
             dest[i].y -= Game::camera.y;
         }
-        parent.x = xPosTmp - Game::camera.x;
-        parent.y = yPosTmp - Game::camera.y;
+        parent.x = tilePositionX - Game::camera.x;
+        parent.y = tilePositionY - Game::camera.y;
 
         // Variables for mouse position
         int mouseX, mouseY;
@@ -132,4 +132,4 @@ public:
 
    
    
-};
+};  

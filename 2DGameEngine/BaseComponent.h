@@ -1,5 +1,4 @@
 #pragma once
-#include "Components.h"
 #include "Game.h"
 //Class for tha base 
 class BaseComponent : public Component {

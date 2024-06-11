@@ -7,6 +7,9 @@
 #include <vector>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <map>
+#include <math.h>
+#include <chrono>
 
 // Class definition for the Game
 class Game {

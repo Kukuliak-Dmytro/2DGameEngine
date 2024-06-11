@@ -2,8 +2,6 @@
 #include "Game.h"
 #include "Components.h"
 #include "MouseControlls.h"
-#include "SDL_ttf.h"
-#include <thread>
 
 
 
@@ -65,14 +63,18 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     }
     else { isRunning = false; }
+
+    //Loading the map
+    LoadMap("assets/map.map", 20, 12);   
     // ²í³ö³àë³çàö³ÿ SDL_ttf
     if (TTF_Init() == -1) { std::cout << "Error initializing SDL_ttf"; } // Error initializing SDL_ttf
-    LoadMap("assets/map.map", 20, 12);
+   
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
       
     }
     playSound("assets/acepe.wav");
+ 
 
  
     //Adding the portal entity
@@ -142,8 +144,7 @@ void Game::render() {
     for (auto& p : projectiles) { p->draw();}
     for (auto& t : turrets) { t->draw(); }
     for (auto& p : portals) { p->draw(); }
-    for (auto& b : bases) { b->draw(); }
-    
+    for (auto& b : bases) { b->draw(); }    
    
     mouse.Hover();
     if (Game::pauseSwitch == false)

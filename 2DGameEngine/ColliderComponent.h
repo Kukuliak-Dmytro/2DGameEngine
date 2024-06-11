@@ -1,6 +1,5 @@
 
-#include <string>
-#include "Components.h"
+
 
 //Class meant for collision
 class ColliderComponent : public Component {
