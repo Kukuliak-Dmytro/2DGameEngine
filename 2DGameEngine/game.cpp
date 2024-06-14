@@ -97,20 +97,21 @@ void Game::handleEvents() {
     SDL_PollEvent(&event);
     switch (event.type) {
       case SDL_KEYDOWN:
-       
+       //якщо натиснули клавішу Esc - закриваємо програму
         if (event.key.keysym.sym == SDLK_ESCAPE) {   
             isRunning = false;
         }
+        //якщо натиснули клавішу Space і життів немає(гравець програв)
         if (event.key.keysym.sym == SDLK_SPACE && Lives==0) {
+            //скидуємо всі параметри
             DefeatedEnemies = 0;
             SpawnedEnemies = 0;
             Lives = 10;
             Game::pauseSwitch = true;
+            //знищуємо усіх башти, кулі, ворогів.
             for (auto e : enemies){ e->destroy();}
             for (auto t : turrets){ t->destroy();}
-            for (auto p : projectiles){ p->destroy();}
-
-           
+            for (auto p : projectiles){ p->destroy();}           
         }
         break;
       
@@ -121,22 +122,26 @@ void Game::handleEvents() {
 
 
 // Функція оновлення логіки гри
-void Game::update()
-{
+void Game::update(){
+    //якщо гра не на паузі - то оновлюємо дані сутностей
+    //у протилежному випадку нічого не оновлюється - здається, що гра на паузі, і нічого не рухається
     if (Game::pauseSwitch == true) 
     {
         manager.refresh();
         manager.update();
         mouse.CameraScroll(camera);
     }
-     
-    if (Game::Lives == 0)Game::pauseSwitch = false;
-    
+    //якщо кількість життів гравця досягло нуля - зупиняємо гру
+    if (Game::Lives == 0)
+    {
+        Game::pauseSwitch = false;
+    }
     SDL_RenderClear(renderer);
 };
 
 // Функція візуалізації гри
 void Game::render() {
+
     SDL_RenderClear(renderer);
     for (auto& t : tiles) { t->draw(); }
     for (auto& t : tilesTrue) { t->draw(); }
@@ -147,8 +152,9 @@ void Game::render() {
     for (auto& b : bases) { b->draw(); }    
    
     mouse.Hover();
-    if (Game::pauseSwitch == false)
-    {        
+    //якщо в гравця закінчилися життя - відображаємо напис Game Over
+    if (Game::Lives == 0)
+    {       
             SDL_Rect src, dest;
             src.x = src.y = 0; src.h = src.w = 512;
             dest.w = 500;

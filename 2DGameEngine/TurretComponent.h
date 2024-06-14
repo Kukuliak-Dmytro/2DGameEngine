@@ -1,8 +1,5 @@
 #pragma once
 
-
-
-
 class TurretComponent :public Component
 {
 private:
@@ -19,10 +16,15 @@ private:
 	//The specs of the turret
 	const int range = 700;
 	// 1000 milliseconds = 1 second
+	// затримка між пострілами
 	const int shootDelayDuration = 450;
+	//дальність снаряду
 	const int projectileRange = 250;
+	//швидкість кулі
 	const int projectileSpeed = 3;
+	//шкода кулі
 	const int projectileDamage = 20;
+	//колір кулі
 	int turretColor;
 	//The resources for rendering the base of the turret
 	SDL_Texture* texture;
@@ -105,7 +107,6 @@ public:
 							entity->getComponent<SpriteComponent>().Play("Shoot", shootDelayDuration);
 
 						}
-
 						//This is required so that the turret will only shoot the first enemy in range
 						//If the enemy is inside the range, it will shoot it, break the cycle, start the cycle again and shoot the first enemy
 						//And if the enemy is outside of range, the turret simply won`t shoot, thus moving onto the next enemy
